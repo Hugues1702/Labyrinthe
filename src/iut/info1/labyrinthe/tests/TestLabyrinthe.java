@@ -21,6 +21,7 @@ class TestLabyrinthe {
         correctes.clear();
         correctes.add( new Labyrinthe(3, 5));
         correctes.add( new Labyrinthe(8, 8));
+        correctes.add( new Labyrinthe(4, 4));
     }
 
     @Test
@@ -33,7 +34,7 @@ class TestLabyrinthe {
 
     @Test
     void testGetNbColonnes() {
-        int[] RESULTAT = { 5, 8 };
+        int[] RESULTAT = { 5, 8, 4 };
         for(int i = 0 ; i < correctes.size() ; i++) {
             assertEquals(RESULTAT[i], correctes.get(i).getNbColonnes());
         }
@@ -41,7 +42,7 @@ class TestLabyrinthe {
 
     @Test
     void testGetNbLignes() {
-        int[] RESULTAT = { 3, 8 };
+        int[] RESULTAT = { 3, 8, 4 };
         for(int i = 0 ; i < correctes.size() ; i++) {
             assertEquals(RESULTAT[i], correctes.get(i).getNbLignes());
         }
@@ -61,12 +62,23 @@ class TestLabyrinthe {
     void testHashCode() {
         assertEquals(correctes.get(0).hashCode(), correctes.get(0).hashCode());
         assertEquals(correctes.get(1).hashCode(), correctes.get(1).hashCode());
+        assertEquals(correctes.get(2).hashCode(), correctes.get(2).hashCode());
 
     }
 
     @Test
     void testToString() {
-    
+     String RESULTAT_ATTENDU = 
+        " ----  ----  ----  ---- \n"
+         + "|   1 |   2 |   3 |   4 |\n"
+         + " ----  ----  ----  ---- \n"
+         + "|   5 |   6 |   7 |   8 |\n"
+         + " ----  ----  ----  ---- \n"
+         + "|   9 |  10 |  11 |  12 |\n"
+         + " ----  ----  ----  ---- \n"
+         + "|  13 |  14 |  15 |  16 |\n"
+         + " ----  ----  ----  ---- ";
+     assertEquals(RESULTAT_ATTENDU,correctes.get(2).toString());
     }
 
 }

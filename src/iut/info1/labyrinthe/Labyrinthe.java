@@ -23,7 +23,7 @@ public class Labyrinthe {
         this.nbColonnes = colonnes;
         this.nbLignes = lignes;
         this.tableau = new int[nbLignes][nbColonnes];
-        
+
         int numeroCase = 1;
 
         for (int ligne = 0 ; ligne < tableau.length ; ligne++) {
@@ -33,7 +33,12 @@ public class Labyrinthe {
             }
         }
     }
-
+    /**
+     * Vérifie que le labyrinthe soit valide
+     * @param lignes
+     * @param colonnes
+     * @return True ou False selon si le labyrinthe peut être crée ou non
+     */
     private static boolean isValide(int lignes, int colonnes) {
         return lignes >= 3 && colonnes >= 3;
     }
@@ -45,8 +50,22 @@ public class Labyrinthe {
 
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
-        return super.toString();
+        String resultat = "";
+        for (int ligne = 0 ; ligne < tableau.length ; ligne++) {
+            for (int colonne = 0 ; colonne < tableau[ligne].length ; colonne++) {
+                resultat += " ---- ";
+            }
+            resultat += "\n";
+            for (int colonne = 0 ; colonne < tableau[ligne].length ; colonne++) {
+                resultat += String.format("|%4d ",tableau[ligne][colonne]);
+            }
+            resultat += "|\n";
+        }
+        for (int colonne = 0 ; colonne < nbLignes ; colonne++) {
+            resultat += " ---- ";
+        }
+        return resultat;
+   
     }
 
     /**

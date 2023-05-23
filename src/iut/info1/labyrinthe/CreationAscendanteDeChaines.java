@@ -16,7 +16,7 @@ public class CreationAscendanteDeChaines {
     
     /** 
      * Algorithme de génération d'un labyrinthe à l'aide d'une méthode
-     * par création ascendente 
+     * par création ascendante 
      * @param args
      */
     public static void main(String[]args) {
