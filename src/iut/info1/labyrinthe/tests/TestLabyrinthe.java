@@ -22,6 +22,7 @@ class TestLabyrinthe {
         correctes.add( new Labyrinthe(3, 5));
         correctes.add( new Labyrinthe(8, 8));
         correctes.add( new Labyrinthe(4, 4));
+        
     }
 
     @Test
@@ -51,9 +52,9 @@ class TestLabyrinthe {
     @Test
     void testGetTableau() {
         int[][] RESULTAT = {
-                {1, 2, 3},
-                {4, 5, 6},
-                {7, 8, 9}
+                {0, 1, 2},
+                {3, 4, 5},
+                {6, 7, 8}
         };
         assertArrayEquals(RESULTAT, new Labyrinthe(3, 3).getTableau());
     }
@@ -70,13 +71,13 @@ class TestLabyrinthe {
     void testToString() {
      String RESULTAT_ATTENDU = 
         " ----  ----  ----  ---- \n"
-         + "|   1 |   2 |   3 |   4 |\n"
+         + "|   0 |   1 |   2 |   3 |\n"
          + " ----  ----  ----  ---- \n"
-         + "|   5 |   6 |   7 |   8 |\n"
+         + "|   4 |   5 |   6 |   7 |\n"
          + " ----  ----  ----  ---- \n"
-         + "|   9 |  10 |  11 |  12 |\n"
+         + "|   8 |   9 |  10 |  11 |\n"
          + " ----  ----  ----  ---- \n"
-         + "|  13 |  14 |  15 |  16 |\n"
+         + "|  12 |  13 |  14 |  15 |\n"
          + " ----  ----  ----  ---- ";
      assertEquals(RESULTAT_ATTENDU,correctes.get(2).toString());
     }

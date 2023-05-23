@@ -1,6 +1,8 @@
-package iut.info1.labyrinthe;
+                                                                           package iut.info1.labyrinthe;
 
-/** TODO comment class responsibility (SRP)
+/** 
+ * Représente un labyrinthe rectangulaire, constitué de pièces originellement
+ * ferméepar des murs.
  * @author nael.briot
  *
  */
@@ -9,7 +11,9 @@ public class Labyrinthe {
     private int nbColonnes;
     private int nbLignes;
     private int[][] tableau;
-
+    private boolean[][] mursVerticaux;
+    private boolean[][] mursHorizontaux;
+    
     /**
      * Crée un labyrinthe en fonction d'un nombre de salles en longueur
      * et en hauteur.
@@ -23,8 +27,10 @@ public class Labyrinthe {
         this.nbColonnes = colonnes;
         this.nbLignes = lignes;
         this.tableau = new int[nbLignes][nbColonnes];
-
-        int numeroCase = 1;
+        this.mursHorizontaux = new boolean[nbLignes + 1][nbColonnes];
+        this.mursVerticaux = new boolean[nbLignes][nbColonnes + 1];
+                
+        int numeroCase = 0;
 
         for (int ligne = 0 ; ligne < tableau.length ; ligne++) {
             for (int colonne = 0 ; colonne < tableau[ligne].length ; colonne++) {
@@ -32,7 +38,15 @@ public class Labyrinthe {
                 numeroCase++;
             }
         }
+        
+        for (int ligne = 0 ; ligne < mursHorizontaux.length ; ligne++) {
+            for (int colonne = 0 ; colonne < mursHorizontaux[ligne].length ; colonne++) {
+                System.out.print(mursHorizontaux[ligne][colonne]);
+            } 
+            System.out.println();
+        }
     }
+    
     /**
      * Vérifie que le labyrinthe soit valide
      * @param lignes
@@ -61,7 +75,7 @@ public class Labyrinthe {
             }
             resultat += "|\n";
         }
-        for (int colonne = 0 ; colonne < nbLignes ; colonne++) {
+        for (int colonne = 0 ; colonne < nbColonnes ; colonne++) {
             resultat += " ---- ";
         }
         return resultat;
