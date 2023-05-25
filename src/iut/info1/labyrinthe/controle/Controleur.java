@@ -4,9 +4,14 @@
  */
 package iut.info1.labyrinthe.controle;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Scanner;
 
 import iut.info1.labyrinthe.Labyrinthe;
+import static iut.info1.labyrinthe.controle.ControleurFichier.nouveauFichier;
+import static iut.info1.labyrinthe.controle.ControleurFichier.ecritureFichier;
+
 
 /** TODO comment class responsability(SRP)
  * @author djedline.boyer
@@ -26,10 +31,13 @@ public class Controleur {
 	/** labyrinthe qui est utilisé pour le jeu*/
 	public static Labyrinthe labyrintheActuel = new Labyrinthe(nbLignes,nbColonnes);
 	
+	/** Récupère un fichier */
+	public static File fichierLabyrintheActuel;
 	/** 
 	 * Affiche un menu pour l'utilisateur
+	 * @throws IOException 
 	 */
-	public static void menu() {
+	public static void menu() throws IOException {
 		String choixOptionUtil;
 		final String MENU = " Veuillez choisir l'une des options suivantes."
 				+ "\nG ou g : Genere un nouveau labyrinthe"
@@ -55,7 +63,9 @@ public class Controleur {
 				case JOUER -> { System.out.println("Création du labyrinthe :");
 				                jouer();
 				}
-				case SAUVEGARDER ->  System.out.println("Vous voulez sauvegarder");
+				case SAUVEGARDER -> { System.out.println("Sauvegarde en cours");
+				                      sauvegarderLabyrinthe();
+				}
 				case QUITTER -> System.out.println("Vous voulez quitter");
 				default -> System.out.println("cette option n'existe pas");
 				}
@@ -63,6 +73,17 @@ public class Controleur {
 				System.out.println("Cette option n'existe pas, entrer qu'une seule lettre");
 			}
 		} while (!(choixOptionUtil.charAt(0) == QUITTER));
+	}
+	
+	/** 
+	 * Permet de sauvegarder un labyrinthe dans un fichier
+	 * @throws IOException 
+	 */
+	public static void sauvegarderLabyrinthe() throws IOException {
+		if (fichierLabyrintheActuel == null) {
+			nouveauFichier();
+		}
+		ecritureFichier();
 	}
 	
 	/** 
@@ -106,8 +127,9 @@ public class Controleur {
 	/** 
 	 * Démarre le menu
 	 * @param args
+	 * @throws IOException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		//nouveauLabyrinthe();
 		menu();
 
