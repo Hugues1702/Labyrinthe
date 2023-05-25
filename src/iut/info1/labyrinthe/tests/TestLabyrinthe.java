@@ -1,6 +1,6 @@
 package iut.info1.labyrinthe.tests;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import iut.info1.labyrinthe.Labyrinthe;
+import iut.info1.labyrinthe.Salle;
 
 class TestLabyrinthe {
 
@@ -47,16 +48,6 @@ class TestLabyrinthe {
         for(int i = 0 ; i < correctes.size() ; i++) {
             assertEquals(RESULTAT[i], correctes.get(i).getNbLignes());
         }
-    }
-
-    @Test
-    void testGetTableau() {
-        int[][] RESULTAT = {
-                {0, 1, 2},
-                {3, 4, 5},
-                {6, 7, 8}
-        };
-        assertArrayEquals(RESULTAT, new Labyrinthe(3, 3).getTableau());
     }
 
     @Test

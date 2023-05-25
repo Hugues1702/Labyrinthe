@@ -1,7 +1,6 @@
 package iut.info1.labyrinthe;
 
-/** 
- * Permet de modéliser une pièce d'un labyrinthe
+/** TODO comment class responsability(SRP)
  * @author djedline.boyer
  *
  */
@@ -12,24 +11,21 @@ public class Salle {
 	boolean porteOuest;
 	int marque;
 	
-	/** 
-	 * Récupère la marque de la salle
-	 * @return la marque récupéré
+	/** TODO method field role
+	 * @return marque
 	 */
 	public int getMarque() {
 		return marque;
 	}
 
-	/** 
-	 * Modifie la marque de la salle
-	 * @param marque la marque à modifier
+	/** TODO method field role
+	 * @param marque
 	 */
 	public void setMarque(int marque) {
 		this.marque = marque;
 	}
 
-	/** 
-	 * Initialise une nouvelle salle
+	/** TODO Comment initial state
 	 * @param index
 	 */
 	public Salle(int index) {
@@ -38,16 +34,15 @@ public class Salle {
 			throw new IllegalArgumentException();
 		}
 		this.index = index;
+		this.marque = 0;
 	}
 
 	private boolean isValide(int index) {
 		return index >= 0;
 	}
 
-	/** 
-	 * 
-	 * @return true si la porteNord existe
-	 *         false sinon
+	/** TODO method field role
+	 * @return porteNord
 	 */
 	public boolean isPorteNord() {
 		return porteNord;
@@ -61,8 +56,7 @@ public class Salle {
 	}
 
 	/** TODO method field role
-	 * @return true si la porte Ouest existe
-	 *         false sinon
+	 * @return porteOuest
 	 */
 	public boolean isPorteOuest() {
 		return porteOuest;
@@ -76,7 +70,7 @@ public class Salle {
 	}
 
 	/** TODO method field role
-	 * @return l'index
+	 * @return index
 	 */
 	public int getIndex() {
 		return index;

@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import iut.info1.labyrinthe.Labyrinthe;
+import iut.info1.labyrinthe.Salle;
+
 import static iut.info1.labyrinthe.controle.ControleurFichier.nouveauFichier;
 import static iut.info1.labyrinthe.controle.ControleurFichier.ecritureFichier;
 
@@ -131,7 +133,7 @@ public class Controleur {
 	 */
 	public static void main(String[] args) throws IOException {
 		//nouveauLabyrinthe();
-		menu();
+		//menu();
 
 	}
 

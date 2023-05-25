@@ -29,18 +29,19 @@ public class Labyrinthe {
 		}
 		this.nbColonnes = colonnes;
 		this.nbLignes = lignes;
-		this.tableau = new Salle[nbLignes][nbColonnes];
+		do {
+			this.tableau = new Salle[nbLignes][nbColonnes];
+			int index = 0;
 
-		int numeroCase = 0;
-
-		for (int ligne = 0 ; ligne < tableau.length ; ligne++) {
-			for (int colonne = 0 ; colonne < tableau[ligne].length ; colonne++) {
-				tableau[ligne][colonne] = new Salle(numeroCase);
-				numeroCase++;
+			for (int ligne = 0 ; ligne < tableau.length ; ligne++) {
+				for (int colonne = 0 ; colonne < tableau[ligne].length ; colonne++) {
+					tableau[ligne][colonne] = new Salle(index);
+					index++;
+				}
 			}
-		}
-
-		generationChaineAscendante();
+			// TODO gérer la réinitialisation
+		} while (generationChaineAscendante());
+		System.out.println(this.toString());
 	}
 
 	/**
@@ -63,46 +64,136 @@ public class Labyrinthe {
 		String resultat = "";
 		for (int ligne = 0 ; ligne < tableau.length ; ligne++) {
 			for (int colonne = 0 ; colonne < tableau[ligne].length ; colonne++) {
-				resultat += " ---- ";
+				resultat += tableau[ligne][colonne].isPorteNord() ?
+						"      " : " ---- ";
 			}
 			resultat += "\n";
 			for (int colonne = 0 ; colonne < tableau[ligne].length ; colonne++) {
-				resultat += String.format("|%4d ", tableau[ligne][colonne].getIndex());
+				String murVertical = tableau[ligne][colonne].isPorteOuest() ? 
+						" ":"|";
+				resultat += String.format(murVertical + "%4d ", 
+						tableau[ligne][colonne].getIndex());
 			}
 			resultat += "|\n";
 		}
 		for (int colonne = 0 ; colonne < nbColonnes ; colonne++) {
 			resultat += " ---- ";
 		}
+		resultat += "\n";
 		return resultat;
+	}
 
+	private boolean isMurExterieur(int ligne, int colonne,
+			boolean murNord) {
+		return (murNord && ligne == 0) || (!murNord && colonne == 0);
 	}
 
 	private boolean generationChaineAscendante() {
-		final int NB_OPERATIONS_MAX = getNbLignes() * getNbColonnes() - 1;
+		final int NB_OPERATIONS_MAX
+		= (getNbLignes() * getNbColonnes()) - 1;
+
 		Salle salleRandom;
+		Salle salleAdjacente;
 		int marque = 1;
+		boolean presenceBoucle = false;
+		int ligneHasard;
+		int colonneHasard;
+		boolean murNord;
 
 		for (int nbOperations = 0 ; nbOperations < NB_OPERATIONS_MAX ; 
 				nbOperations++) {
-			int ligneAuHasard = (int) (Math.random() * getNbLignes());
-			int colonneAuHasard = (int) (Math.random() * getNbColonnes());
-			salleRandom = tableau[ligneAuHasard][colonneAuHasard];
-			boolean murNord = (int) Math.random() == 0;
-			Salle voisin;
+			do {
+				do {
+					ligneHasard = (int) (Math.random() * getNbLignes());
+					colonneHasard = (int) (Math.random() * getNbColonnes());
+					murNord = (int) Math.round(Math.random()) == 0;
+					salleRandom = tableau[ligneHasard][colonneHasard];
+				} while (isMurExterieur(ligneHasard, colonneHasard, murNord)
+						|| isMurDejaPerce(salleRandom, murNord));
+				if (murNord) {
+					System.out.printf("Porte entre [%d;%d] et [%d;%d]\n",
+							ligneHasard, colonneHasard, ligneHasard -1,
+							colonneHasard);
+					salleAdjacente = tableau[ligneHasard - 1]
+							[colonneHasard];
+				} else {
+					System.out.printf("Porte entre [%d;%d] et [%d;%d]\n",
+							ligneHasard, colonneHasard, ligneHasard,
+							colonneHasard - 1);
+					salleAdjacente = tableau[ligneHasard]
+							[colonneHasard - 1];
+				}
+				System.out.println(salleRandom.getMarque() == salleAdjacente.getMarque());
+			} while (salleRandom.getMarque() == salleAdjacente.getMarque()
+					&& salleRandom.getMarque() != 0);
 			if (murNord) {
-				voisin = tableau[ligneAuHasard - 1][colonneAuHasard];
+				salleRandom.setPorteNord(true);
 			} else {
-				voisin = tableau[ligneAuHasard][colonneAuHasard - 1];
+				salleRandom.setPorteOuest(true);
 			}
-			if (voisin.getMarque() != 0) {
-				salleRandom.setMarque(voisin.getMarque());
+			marque = changerMarques(salleRandom, salleAdjacente, marque);
+		}
+		return presenceBoucle;
+	}
+
+
+	/**
+	 * Permet de savoir si le mur nord ou ouest d'une salle est une 
+	 * porte ou non.
+	 * @param salle la salle dont on veut connaitre les états de mur
+	 * @param murNord un booleen représentant le mur du nord si true
+	 * 		ou le mur de l'ouest autrement
+	 * @return
+	 */
+	private boolean isMurDejaPerce(Salle salle, boolean murNord) {
+		if (murNord) {
+			return salle.isPorteNord();
+		}
+		return salle.isPorteNord();
+	}
+
+	/**
+	 * Permet de décider du remplacement des marques pour l'algorithme 1.
+	 * @param premiereSalle la salle sélectionnée
+	 * @param deuxiemeSalle la salle adjacente à la première
+	 * @param marqueActuelle la marque à appliquer en cas de salles sans marques
+	 * @return un entier représentant la valeur de la marque
+	 */
+	private int changerMarques(Salle premiereSalle, Salle deuxiemeSalle,
+			int marqueActuelle){
+		int marqueSalle = premiereSalle.getMarque();
+		int marqueAdjacent = deuxiemeSalle.getMarque();
+
+		if (marqueAdjacent == marqueSalle && marqueSalle == 0) {
+				premiereSalle.setMarque(marqueActuelle);
+				deuxiemeSalle.setMarque(marqueActuelle);
+				return ++marqueActuelle;
+		} else {
+			if (marqueSalle == 0 && marqueAdjacent != 0) {
+				premiereSalle.setMarque(marqueAdjacent);
+			} else if (marqueAdjacent == 0 && marqueAdjacent == 0){
+				deuxiemeSalle.setMarque(marqueSalle);
 			} else {
-				salleRandom.setMarque(marque);
+				remplacerMarque(marqueAdjacent, marqueSalle);
 			}
 		}
+		return marqueActuelle;
+	}
 
-		return false;
+	/**
+	 * Remplace les marques de tous les sommets du tableau portant 
+	 * marqueDepart par marqueFinale
+	 * @param marqueInitiale la marque de départ
+	 * @param marqueFinale la marque finale
+	 */
+	private void remplacerMarque(int marqueInitiale, int marqueFinale) {
+		for (int ligne = 0 ; ligne < tableau.length ; ligne++) {
+			for (int colonne = 0 ; colonne < tableau[ligne].length ; colonne++) {
+				if (tableau[ligne][colonne].getMarque() == marqueInitiale) {
+					tableau[ligne][colonne].setMarque(marqueFinale);
+				}
+			}
+		}
 	}
 
 	/**
