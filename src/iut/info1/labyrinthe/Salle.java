@@ -1,32 +1,52 @@
 package iut.info1.labyrinthe;
 
-/** TODO comment class responsability(SRP)
- * @author djedline.boyer
- *
+/**
+ * Représente une salle de labyrinthe, avec ses murs au nord et à
+ * l'ouest.
+ * @author BAUDROIT Leïla
+ * @author BERTRAND Hugues
+ * @author BOYER Djedline
+ * @author BRIOT Nael
  */
 public class Salle {
 	
+	/**
+	 * Le numéro assigné à la salle.
+	 */
 	int index;
+	
+	/**
+	 * Vaut true si le mur au Nord est une porte, false sinon.
+	 */
 	boolean porteNord;
+	
+	/**
+	 * Vaut true si le mur à l'Ouest est une porte, false sinon.
+	 */
 	boolean porteOuest;
+	
+	/**
+	 * Marque assignée à chaque salle pour les algorithmes.
+	 */
 	int marque;
 	
-	/** TODO method field role
-	 * @return marque
+	/**
+	 * @return marque la marque assignée à la salle
 	 */
 	public int getMarque() {
 		return marque;
 	}
 
-	/** TODO method field role
-	 * @param marque
+	/** 
+	 * @param marque la nouvelle marque assignée à la salle
 	 */
 	public void setMarque(int marque) {
 		this.marque = marque;
 	}
 
-	/** TODO Comment initial state
-	 * @param index
+	/**
+	 * Crée une salle de labyrinthe avec un numéro d'index.
+	 * @param index le numéro assigné à la salle
 	 */
 	public Salle(int index) {
 		super();
@@ -37,39 +57,51 @@ public class Salle {
 		this.marque = 0;
 	}
 
-	private boolean isValide(int index) {
+	/**
+	 * Vérifie la validité d'un index 
+	 * @param index l'index à vérifier.
+	 * @return true si l'index est positif ou nul.
+	 */
+	private static boolean isValide(int index) {
 		return index >= 0;
 	}
 
-	/** TODO method field role
-	 * @return porteNord
+	/**
+	 * @return porteNord qui vaut true si le mur au Nord est une
+	 * porte, false autrement
 	 */
 	public boolean isPorteNord() {
 		return porteNord;
 	}
 
-	/** TODO method field role
-	 * @param porteNord
+	/** 
+	 * @param la nouvelle valeur pour le mur au Nord de cette salle
+	 * - true si le mur est une porte
+	 * - false sinon
 	 */
 	public void setPorteNord(boolean porteNord) {
 		this.porteNord = porteNord;
 	}
 
-	/** TODO method field role
-	 * @return porteOuest
+	/**
+	 * @return porteOuest qui vaut true si le mur à l'Ouest est une
+	 * porte, false autrement
 	 */
 	public boolean isPorteOuest() {
 		return porteOuest;
 	}
 
-	/** TODO method field role
-	 * @param porteOuest
+	/** 
+	 * @param la nouvelle valeur pour le mur à l'Ouest de cette salle
+	 * - true si le mur est une porte
+	 * - false sinon
 	 */
 	public void setPorteOuest(boolean porteOuest) {
 		this.porteOuest = porteOuest;
 	}
 
-	/** TODO method field role
+	/** 
+	 * Le numéro d'indice de la salle au sein du labyrinthe.
 	 * @return index
 	 */
 	public int getIndex() {
