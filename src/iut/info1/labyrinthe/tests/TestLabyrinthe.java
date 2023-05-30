@@ -1,6 +1,5 @@
 package iut.info1.labyrinthe.tests;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -11,8 +10,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import iut.info1.labyrinthe.Labyrinthe;
-import iut.info1.labyrinthe.Salle;
 
+/**
+ * Tests unitaire de la classe Labyrinthe.
+ * @author BAUDROIT Leïla
+ * @author BERTRAND Hugues
+ * @author BOYER Djedline
+ * @author BRIOT Nael
+ */
 class TestLabyrinthe {
 
     List<Labyrinthe> correctes = new ArrayList<Labyrinthe>();

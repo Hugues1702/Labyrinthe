@@ -7,8 +7,11 @@ package iut.info1.labyrinthe;
 
 /** 
  * Représente un labyrinthe rectangulaire, constitué de pièces originellement
- * ferméepar des murs.
- * @author nael.briot
+ * fermée par des murs.
+ * @author BAUDROIT Leïla
+ * @author BERTRAND Hugues
+ * @author BOYER Djedline
+ * @author BRIOT Nael
  *
  */
 public class Labyrinthe {
@@ -20,8 +23,8 @@ public class Labyrinthe {
 	/**
 	 * Crée un labyrinthe en fonction d'un nombre de salles en longueur
 	 * et en hauteur.
-	 * @param lignes
-	 * @param colonnes
+	 * @param lignes le nombre de lignes de salles présentes
+	 * @param colonnes le nombre de colonnes de salles présentes
 	 */
 	public Labyrinthe(int lignes, int colonnes) {
 		if (!isValide(lignes, colonnes)) {
@@ -29,23 +32,21 @@ public class Labyrinthe {
 		}
 		this.nbColonnes = colonnes;
 		this.nbLignes = lignes;
-		do {
-			this.tableau = new Salle[nbLignes][nbColonnes];
-			int index = 0;
+		this.tableau = new Salle[nbLignes][nbColonnes];
+		int index = 0;
 
-			for (int ligne = 0 ; ligne < tableau.length ; ligne++) {
-				for (int colonne = 0 ; colonne < tableau[ligne].length ; colonne++) {
-					tableau[ligne][colonne] = new Salle(index);
-					index++;
-				}
+		for (int ligne = 0 ; ligne < tableau.length ; ligne++) {
+			for (int colonne = 0 ; colonne < tableau[ligne].length ; colonne++) {
+				tableau[ligne][colonne] = new Salle(index);
+				index++;
 			}
-			// TODO gérer la réinitialisation
-		} while (generationChaineAscendante());
+		}
+		generationChaineAscendante();
 		System.out.println(this.toString());
 	}
 
 	/**
-	 * Vérifie que le labyrinthe soit valide
+	 * Vérifie que le labyrinthe soit valide.
 	 * @param lignes
 	 * @param colonnes
 	 * @return True ou False selon si le labyrinthe peut être crée ou non
@@ -64,10 +65,11 @@ public class Labyrinthe {
 		String resultat = "";
 		for (int ligne = 0 ; ligne < tableau.length ; ligne++) {
 			for (int colonne = 0 ; colonne < tableau[ligne].length ; colonne++) {
+				resultat += "+";
 				resultat += tableau[ligne][colonne].isPorteNord() ?
-						"      " : " ---- ";
+						"     " : "-----";
 			}
-			resultat += "\n";
+			resultat += "+\n";
 			for (int colonne = 0 ; colonne < tableau[ligne].length ; colonne++) {
 				String murVertical = tableau[ligne][colonne].isPorteOuest() ? 
 						" ":"|";
@@ -77,25 +79,32 @@ public class Labyrinthe {
 			resultat += "|\n";
 		}
 		for (int colonne = 0 ; colonne < nbColonnes ; colonne++) {
-			resultat += " ---- ";
+			resultat += "------";
 		}
-		resultat += "\n";
+		resultat += "-\n";
 		return resultat;
 	}
 
+	/**
+	 * Permet de reconnaître un mur comme mur extérieur.
+	 * @param ligne la ligne de la case concernée
+	 * @param colonne la colonne de la case concernée
+	 */
 	private boolean isMurExterieur(int ligne, int colonne,
 			boolean murNord) {
 		return (murNord && ligne == 0) || (!murNord && colonne == 0);
 	}
 
-	private boolean generationChaineAscendante() {
+	/**
+	 * Perce des portes à la place des murs du labyrinthe au hasard.
+	 */
+	private void generationChaineAscendante() {
 		final int NB_OPERATIONS_MAX
 		= (getNbLignes() * getNbColonnes()) - 1;
 
 		Salle salleRandom;
 		Salle salleAdjacente;
 		int marque = 1;
-		boolean presenceBoucle = false;
 		int ligneHasard;
 		int colonneHasard;
 		boolean murNord;
@@ -111,19 +120,12 @@ public class Labyrinthe {
 				} while (isMurExterieur(ligneHasard, colonneHasard, murNord)
 						|| isMurDejaPerce(salleRandom, murNord));
 				if (murNord) {
-					System.out.printf("Porte entre [%d;%d] et [%d;%d]\n",
-							ligneHasard, colonneHasard, ligneHasard -1,
-							colonneHasard);
 					salleAdjacente = tableau[ligneHasard - 1]
 							[colonneHasard];
 				} else {
-					System.out.printf("Porte entre [%d;%d] et [%d;%d]\n",
-							ligneHasard, colonneHasard, ligneHasard,
-							colonneHasard - 1);
 					salleAdjacente = tableau[ligneHasard]
 							[colonneHasard - 1];
 				}
-				System.out.println(salleRandom.getMarque() == salleAdjacente.getMarque());
 			} while (salleRandom.getMarque() == salleAdjacente.getMarque()
 					&& salleRandom.getMarque() != 0);
 			if (murNord) {
@@ -133,7 +135,6 @@ public class Labyrinthe {
 			}
 			marque = changerMarques(salleRandom, salleAdjacente, marque);
 		}
-		return presenceBoucle;
 	}
 
 
@@ -165,9 +166,9 @@ public class Labyrinthe {
 		int marqueAdjacent = deuxiemeSalle.getMarque();
 
 		if (marqueAdjacent == marqueSalle && marqueSalle == 0) {
-				premiereSalle.setMarque(marqueActuelle);
-				deuxiemeSalle.setMarque(marqueActuelle);
-				return ++marqueActuelle;
+			premiereSalle.setMarque(marqueActuelle);
+			deuxiemeSalle.setMarque(marqueActuelle);
+			return ++marqueActuelle;
 		} else {
 			if (marqueSalle == 0 && marqueAdjacent != 0) {
 				premiereSalle.setMarque(marqueAdjacent);

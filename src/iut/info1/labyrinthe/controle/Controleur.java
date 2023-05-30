@@ -4,15 +4,14 @@
  */
 package iut.info1.labyrinthe.controle;
 
+import static iut.info1.labyrinthe.controle.ControleurFichier.ecritureFichier;
+import static iut.info1.labyrinthe.controle.ControleurFichier.nouveauFichier;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
 import iut.info1.labyrinthe.Labyrinthe;
-import iut.info1.labyrinthe.Salle;
-
-import static iut.info1.labyrinthe.controle.ControleurFichier.nouveauFichier;
-import static iut.info1.labyrinthe.controle.ControleurFichier.ecritureFichier;
 
 
 /** TODO comment class responsability(SRP)

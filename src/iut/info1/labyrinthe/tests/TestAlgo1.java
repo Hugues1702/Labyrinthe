@@ -13,7 +13,10 @@ class TestAlgo1 {
 
 	@Test
 	void testLabyrinthe() {
+		new Labyrinthe(3,3);
 		new Labyrinthe(4,4);
+		new Labyrinthe(5,5);
+		new Labyrinthe(6,6);
 	}
 
 }
