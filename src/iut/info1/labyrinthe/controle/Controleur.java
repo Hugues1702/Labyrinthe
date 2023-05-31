@@ -40,7 +40,7 @@ public class Controleur {
 
 
     /** TODO comment field role (attribute, association) */
-    public static int[] arrivee = {nbLignes-1,nbColonnes-1};
+    public static int[] arrivee = {nbLignes-1, nbColonnes-1};
 
     /** permet de recueillir le choix de l'uitlisateur*/
     public static Scanner entreeUtilisateur = new Scanner(System.in);
@@ -117,7 +117,10 @@ public class Controleur {
      * et l'affiche à l'utilisateur
      */
     public static void jouer() {
-        labyrintheActuel.getSalle(joueur[0], joueur[1]).setPresenceJoueur(true);
+        labyrintheActuel.getSalle(joueur[0], joueur[1]).setSymbole("X");
+        arrivee[0] = nbLignes-1;
+        arrivee[1] = nbColonnes-1;
+        labyrintheActuel.getSalle(arrivee[0], arrivee[1]).setSymbole("f");
         System.out.println(labyrintheActuel.toString());
         do {
             System.out.println("H,h -> pour se déplacer en haut\n"
@@ -153,12 +156,12 @@ public class Controleur {
             } else if (deplacementUtil.charAt(0) == GAUCHE) {
                 ControleDeplacement.deplacementGauche();
             }
-            System.out.println("( " + joueur[0] + ";"+ joueur[1] + " )");
-            labyrintheActuel.getSalle(joueur[0], joueur[1]).setPresenceJoueur(true);
+            //System.out.println("( " + joueur[0] + ";"+ joueur[1] + " )");
+            labyrintheActuel.getSalle(joueur[0], joueur[1]).setSymbole("X");
             System.out.println(labyrintheActuel.toString());
             jeuFini = arrivee[0] == joueur[0] && arrivee[1] == joueur[1];
             if (jeuFini) {
-                System.out.println("Bravo !! Vous etes sortis");
+                System.out.println("Bravo !! Vous etes sortis\n\n\n");
             }
         } catch (IllegalArgumentException erreur) {
             System.out.println("Deplacement impossible");

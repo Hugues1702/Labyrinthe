@@ -109,7 +109,7 @@ public class ControleDeplacement {
      * 
      */
     public static void changementSalle() {
-        labyrintheActuel.getSalle(joueur[0], joueur[1]).setPresenceJoueur(false);
+        labyrintheActuel.getSalle(joueur[0], joueur[1]).setSymbole(".");
     }
 
 }
