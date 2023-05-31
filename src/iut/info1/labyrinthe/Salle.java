@@ -10,7 +10,7 @@ package iut.info1.labyrinthe;
  */
 public class Salle {
         
-        boolean presenceJoueur;
+        String symbole;
         
         /**
          * Le numéro assigné à la salle.
@@ -58,7 +58,7 @@ public class Salle {
                 this.index = index;
                 this.marque = 0;
                 
-                this.presenceJoueur = false;
+                this.symbole = " ";
         }
 
         /**
@@ -139,20 +139,14 @@ public class Salle {
          * @return resultat
          */
         public String getPresenceJoueur() {
-            String resultat;
-            if (presenceJoueur) {
-                resultat = "X";
-            } else {
-                resultat = ".";
-            }
-            return resultat;
+            return symbole;
         }
         
         /** TODO comment method role
-         * @param joueurpresent
+         * @param choixSymbole 
          */
-        public void setPresenceJoueur(boolean joueurpresent) {
-            presenceJoueur = joueurpresent;
+        public void setSymbole(String choixSymbole) {
+            symbole = choixSymbole;
         }
 
 }

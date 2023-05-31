@@ -42,7 +42,7 @@ public class Labyrinthe {
                     }
             }
             generationChaineAscendante();
-            System.out.println(this.toString());
+            
     }
 
     /**
@@ -73,8 +73,9 @@ public class Labyrinthe {
                         for (int colonne = 0 ; colonne < tableau[ligne].length ; colonne++) {
                                 String murVertical = tableau[ligne][colonne].isPorteOuest() ? 
                                                 " ":"|";
-                                resultat += String.format(murVertical + "%4d ", 
-                                                tableau[ligne][colonne].getIndex());
+                                resultat += String.format(murVertical + "  " +
+                                                tableau[ligne][colonne].getPresenceJoueur()
+                                                + "  ");
                         }
                         resultat += "|\n";
                 }
