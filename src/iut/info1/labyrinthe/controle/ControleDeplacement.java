@@ -16,7 +16,6 @@ import static iut.info1.labyrinthe.controle.Controleur.nbColonnes;
  */
 public class ControleDeplacement {
     
-    private static final int nbLigne = 0;
     private final char HAUT ='H';
     private final char BAS ='B';
     private final char DROITE ='D';
@@ -36,25 +35,81 @@ public class ControleDeplacement {
      * @param ligne
      * @param colonne
      */
-    public void deplacementHaut(int ligne, int colonne) {
-        int coordonneeAModif = joueur[0];
-        boolean deplacementPossible;
-        if (deplacementHorizontale(coordonneeAModif = joueur[0])) {
+    public static void deplacementHaut() {
+        boolean deplacementPossible = joueur[0] >= 0;
+        if (deplacementPossible) {
             deplacementPossible = labyrintheActuel.getSalle(joueur[0], joueur[1]).isPorteNord();
             if (deplacementPossible) {
+                changementSalle();
+                joueur[0]--;
+            }
+        }
+        if (!deplacementPossible) {
+            throw new IllegalArgumentException();
+         }
+    }
+    
+    /** TODO comment method role
+     * @param ligne
+     * @param colonne
+     * @throws si deplacement impossible
+     */
+    public static void deplacementBas() {
+        boolean deplacementPossible = joueur[0]+1 < nbLignes;
+        System.out.println(deplacementPossible);
+        if (deplacementPossible) {
+            deplacementPossible = labyrintheActuel.getSalle(joueur[0]+1, joueur[1]).isPorteNord();
+            if (deplacementPossible) {
+                changementSalle();
                 joueur[0]++;
             }
         }
+        if (!deplacementPossible) {
+            throw new IllegalArgumentException();
+         }
     }
     
-    /** 
-     * VérifPorte
-     * @param coordonneeAVerif 
-     * @return true si deplacement possible
-     *         false si non
+    /** TODO comment method role
+     * @param ligne
+     * @param colonne
      */
-    public boolean deplacementHorizontale(int coordonneeAVerif) {
-        //salleActuel
-        return joueur[0] >= 0 && joueur[0] <= nbLigne;
+    public static void deplacementDroite() {
+        boolean deplacementPossible = joueur[1]+1 < nbColonnes;
+        if (deplacementPossible) {
+            deplacementPossible = labyrintheActuel.getSalle(joueur[0], joueur[1]+1).isPorteOuest();
+            if (deplacementPossible) {
+                changementSalle();
+                joueur[1]++;
+            }
+        }
+        if (!deplacementPossible) {
+            throw new IllegalArgumentException();
+         }
     }
+    
+    /** TODO comment method role
+     * @param ligne
+     * @param colonne
+     */
+    public static void deplacementGauche() {
+        boolean deplacementPossible = joueur[1]>= 0;
+        if (deplacementPossible) {
+            deplacementPossible = labyrintheActuel.getSalle(joueur[0], joueur[1]).isPorteOuest();
+            if (deplacementPossible) {
+                changementSalle();
+                joueur[0]--;
+            }
+        }
+        if (!deplacementPossible) {
+            throw new IllegalArgumentException();
+         }
+    }
+    
+    /** TODO comment method role
+     * 
+     */
+    public static void changementSalle() {
+        labyrintheActuel.getSalle(joueur[0], joueur[1]).setPresenceJoueur(false);
+    }
+
 }

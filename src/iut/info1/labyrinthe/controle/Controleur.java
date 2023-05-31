@@ -4,6 +4,8 @@
  */
 package iut.info1.labyrinthe.controle;
 
+import static iut.info1.labyrinthe.controle.Controleur.joueur;
+import static iut.info1.labyrinthe.controle.Controleur.labyrintheActuel;
 import static iut.info1.labyrinthe.controle.ControleurFichier.ecritureFichier;
 import static iut.info1.labyrinthe.controle.ControleurFichier.nouveauFichier;
 import static iut.info1.labyrinthe.controle.ControleurFichier.recupDonnee;
@@ -21,7 +23,7 @@ import iut.info1.labyrinthe.Labyrinthe;
  *
  */
 public class Controleur {
-        
+
     private static final char HAUT = 'H';
 
     private static final char BAS = 'B';
@@ -32,148 +34,176 @@ public class Controleur {
 
     /** nombre de ligne dans un labyrinthe*/
     public static int nbLignes = 3;
+
+    /** nombre de colonnes */
+    public static int nbColonnes = 3;
+
+
+    /** TODO comment field role (attribute, association) */
+    public static int[] arrivee = {nbLignes-1,nbColonnes-1};
+
+    /** permet de recueillir le choix de l'uitlisateur*/
+    public static Scanner entreeUtilisateur = new Scanner(System.in);
+
+    /** labyrinthe qui est utilisé pour le jeu*/
+    public static Labyrinthe labyrintheActuel = new Labyrinthe(nbLignes,nbColonnes);
+
+    /** Récupère un fichier */
+    public static File fichierLabyrintheActuel;
+
+    /** La position du joueur */
+    public static int[] joueur = {0,0};
+
+    private static String deplacementUtil;
     
-        /** nombre de colonnes */
-        public static int nbColonnes = 3;
-        
-        /** permet de recueillir le choix de l'uitlisateur*/
-        public static Scanner entreeUtilisateur = new Scanner(System.in);
+    static boolean jeuFini = false;
 
-        /** labyrinthe qui est utilisé pour le jeu*/
-        public static Labyrinthe labyrintheActuel = new Labyrinthe(nbLignes,nbColonnes);
-        
-        /** Récupère un fichier */
-        public static File fichierLabyrintheActuel;
-        
-        /** La position du joueur */
-        public static int[] joueur = {0,0};
-        
-        /** 
-         * Affiche un menu pour l'utilisateur
-         * @throws IOException 
-         */
-        public static void menu() throws IOException {
-                String choixOptionUtil;
-                final String MENU = " Veuillez choisir l'une des options suivantes."
-                                + "\nG ou g : Genere un nouveau labyrinthe"
-                                + "\nT ou t : Telecharger un labyrinthe qui existe deja"
-                                + "\nJ ou j : Permet de jouer avec le dernier labyrinthe telecharge/genere"
-                                + "\nS ou s : Sauvegarde le dernier labyrinthe telecharge/genere"
-                                + "\nQ ou q : Permet de quitter le programme"
-                                + "\nEntrer l'option choisie :";
-                final char GENERER_NOUVEAU_LABYRINTHE = 'G';
-                final char TELECHARGER_LABYRINTHE = 'T';
-                final char JOUER = 'J';
-                final char SAUVEGARDER ='S';
-                final char QUITTER ='Q';
+    /** 
+     * Affiche un menu pour l'utilisateur
+     * @throws IOException 
+     */
+    public static void menu() throws IOException {
+        String choixOptionUtil;
+        final String MENU = " Veuillez choisir l'une des options suivantes."
+                + "\nG ou g : Genere un nouveau labyrinthe"
+                + "\nT ou t : Telecharger un labyrinthe qui existe deja"
+                + "\nJ ou j : Permet de jouer avec le dernier labyrinthe telecharge/genere"
+                + "\nS ou s : Sauvegarde le dernier labyrinthe telecharge/genere"
+                + "\nQ ou q : Permet de quitter le programme"
+                + "\nEntrer l'option choisie :";
+        final char GENERER_NOUVEAU_LABYRINTHE = 'G';
+        final char TELECHARGER_LABYRINTHE = 'T';
+        final char JOUER = 'J';
+        final char SAUVEGARDER ='S';
+        final char QUITTER ='Q';
 
-                do {
-                        System.out.print(MENU);
-                        choixOptionUtil = entreeUtilisateur.nextLine();
-                        if (choixOptionUtil.length() == 1) {
-                                choixOptionUtil = choixOptionUtil.toUpperCase();
-                                switch (choixOptionUtil.charAt(0)) {
-                                case GENERER_NOUVEAU_LABYRINTHE ->  nouveauLabyrinthe();
-                                case TELECHARGER_LABYRINTHE ->  System.out.println("Vous voulez télécharger un labyrinthe");
-                                case JOUER -> { System.out.println("Création du labyrinthe :");
-                                                jouer();
-                                }
-                                case SAUVEGARDER -> { System.out.println("Sauvegarde en cours");
-                                                      sauvegarderLabyrinthe();
-                                }
-                                case QUITTER -> System.out.println("A bientot");
-                                default -> System.out.println("cette option n'existe pas");
-                                }
-                        } else {
-                                System.out.println("Cette option n'existe pas, entrer qu'une seule lettre");
-                        }
-                } while (!(choixOptionUtil.charAt(0) == QUITTER));
-        }
-        
-        /** 
-         * Permet de sauvegarder un labyrinthe dans un fichier
-         * @throws IOException 
-         */
-        public static void sauvegarderLabyrinthe() throws IOException {
-                if (fichierLabyrintheActuel == null) {
-                        nouveauFichier();
+        do {
+            System.out.print(MENU);
+            choixOptionUtil = entreeUtilisateur.nextLine();
+            if (choixOptionUtil.length() == 1) {
+                choixOptionUtil = choixOptionUtil.toUpperCase();
+                switch (choixOptionUtil.charAt(0)) {
+                case GENERER_NOUVEAU_LABYRINTHE ->  nouveauLabyrinthe();
+                case TELECHARGER_LABYRINTHE ->  System.out.println("Vous voulez télécharger un labyrinthe");
+                case JOUER -> { System.out.println("Création du labyrinthe :");
+                jouer();
                 }
-                ecritureFichier();
-                //recupDonnee();
-        }
-        
-        /** 
-         * Permet de créer un labyrinthe
-         * et l'affiche à l'utilisateur
-         */
-        public static void jouer() {
-            String deplacementUtil;
-            boolean deplacementPossible = false;
-            int coordonneeAModif = 0;
-            deplacementUtil = entreeUtilisateur.nextLine();
-            if (deplacementUtil.charAt(0) == HAUT) {
-                coordonneeAModif = joueur[0];
-                deplacementPossible = labyrintheActuel.getSalle(joueur[0], joueur[1]).isPorteNord();
-                if (deplacementPossible) {
-                    coordonneeAModif++;
+                case SAUVEGARDER -> { System.out.println("Sauvegarde en cours");
+                sauvegarderLabyrinthe();
                 }
-            } else if (deplacementUtil.charAt(0) == BAS) {
-                coordonneeAModif = joueur[0];
-                deplacementPossible = labyrintheActuel.getSalle(joueur[0]+1, joueur[1]).isPorteNord();
-            } else if (deplacementUtil.charAt(0) == DROITE) {
-                coordonneeAModif = joueur[1];
-                deplacementPossible = labyrintheActuel.getSalle(joueur[0], joueur[1]+1).isPorteOuest();
-            } else if (deplacementUtil.charAt(0) == GAUCHE) {
-                coordonneeAModif = joueur[1];
-                deplacementPossible = (labyrintheActuel.getSalle(joueur[0], joueur[1]).isPorteOuest());
-            }
-            if (deplacementPossible) {
-                coordonneeAModif++;
+                case QUITTER -> System.out.println("A bientot");
+                default -> System.out.println("cette option n'existe pas");
+                }
             } else {
-                System.out.println("Deplacement impossible");
-               // System.out.println(labyrintheActuel.toString());
+                System.out.println("Cette option n'existe pas, entrer qu'une seule lettre");
             }
-        }
-        
-        /** 
-         * Créer un nouveau labyrinthe
-         */
-        public static void nouveauLabyrinthe() {
-                boolean saisieOk;
-                final String MESSAGE_ERREUR = "Erreur :Il faut entrer un nombre entier plus grand que 3 ";
-                do {
-                        System.out.print("Entrez un nombre de lignes :");
-                        saisieOk = entreeUtilisateur.hasNextInt();
-                        if (saisieOk) {
-                                nbLignes = entreeUtilisateur.nextInt();
-                                saisieOk = nbLignes >= 3;
-                                if (saisieOk) {
-                                        System.out.print("Entrez un nombre de colonnes :");
-                                        saisieOk = entreeUtilisateur.hasNextInt();
-                                }
-                                if (saisieOk) {
-                                        nbColonnes = entreeUtilisateur.nextInt();
-                                        saisieOk = nbColonnes >= 3;
-                                }
-                        }
-                        if (!saisieOk) {
-                                System.err.println(MESSAGE_ERREUR);
-                        }
-                        entreeUtilisateur.nextLine();
+        } while (!(choixOptionUtil.charAt(0) == QUITTER));
+    }
 
-                } while(!saisieOk);
-                labyrintheActuel = new Labyrinthe(nbLignes,nbColonnes);
+    /** 
+     * Permet de sauvegarder un labyrinthe dans un fichier
+     * @throws IOException 
+     */
+    public static void sauvegarderLabyrinthe() throws IOException {
+        if (fichierLabyrintheActuel == null) {
+            nouveauFichier();
         }
-        
-        /** 
-         * Démarre le menu
-         * @param args
-         * @throws IOException 
-         */
-        public static void main(String[] args) throws IOException {
-                //nouveauLabyrinthe();
-                menu();
+        ecritureFichier();
+        //recupDonnee();
+    }
 
+    /** 
+     * Permet de créer un labyrinthe
+     * et l'affiche à l'utilisateur
+     */
+    public static void jouer() {
+        labyrintheActuel.getSalle(joueur[0], joueur[1]).setPresenceJoueur(true);
+        System.out.println(labyrintheActuel.toString());
+        do {
+            System.out.println("H,h -> pour se déplacer en haut\n"
+                    + "B,b -> pour se déplacer en bas\n"
+                    + "D,d -> pour se déplacer à droite\n"
+                    + "G,g -> pour se déplacer à gauche");
+
+            deplacementUtil = entreeUtilisateur.nextLine();
+            if (deplacementUtil.length() == 1) {
+                deplacementUtil = deplacementUtil.toUpperCase();
+                switch (deplacementUtil.charAt(0)) {
+                case HAUT, BAS,DROITE,GAUCHE  ->  deplacement();
+                case 'I' ->  nouveauLabyrinthe();
+                default -> System.out.println("Deplacement impossible");
+                }
+            } else {
+                System.out.println("Cette option n'existe pas, entrer qu'une seule lettre");
+            }
+        } while (!jeuFini);
+    }
+
+    /** TODO comment method role
+     * 
+     */
+    public static void deplacement() {
+        try {
+            if (deplacementUtil.charAt(0) == HAUT) {
+                ControleDeplacement.deplacementHaut();
+            } else if (deplacementUtil.charAt(0) == BAS) {
+                ControleDeplacement.deplacementBas();
+            } else if (deplacementUtil.charAt(0) == DROITE) {
+                ControleDeplacement.deplacementDroite();
+            } else if (deplacementUtil.charAt(0) == GAUCHE) {
+                ControleDeplacement.deplacementGauche();
+            }
+            System.out.println("( " + joueur[0] + ";"+ joueur[1] + " )");
+            labyrintheActuel.getSalle(joueur[0], joueur[1]).setPresenceJoueur(true);
+            System.out.println(labyrintheActuel.toString());
+            jeuFini = arrivee[0] == joueur[0] && arrivee[1] == joueur[1];
+            if (jeuFini) {
+                System.out.println("Bravo !! Vous etes sortis");
+            }
+        } catch (IllegalArgumentException erreur) {
+            System.out.println("Deplacement impossible");
         }
+    }
+
+    /** 
+     * Créer un nouveau labyrinthe
+     */
+    public static void nouveauLabyrinthe() {
+        boolean saisieOk;
+        final String MESSAGE_ERREUR = "Erreur :Il faut entrer un nombre entier plus grand que 3 ";
+        do {
+            System.out.print("Entrez un nombre de lignes :");
+            saisieOk = entreeUtilisateur.hasNextInt();
+            if (saisieOk) {
+                nbLignes = entreeUtilisateur.nextInt();
+                saisieOk = nbLignes >= 3;
+                if (saisieOk) {
+                    System.out.print("Entrez un nombre de colonnes :");
+                    saisieOk = entreeUtilisateur.hasNextInt();
+                }
+                if (saisieOk) {
+                    nbColonnes = entreeUtilisateur.nextInt();
+                    saisieOk = nbColonnes >= 3;
+                }
+            }
+            if (!saisieOk) {
+                System.err.println(MESSAGE_ERREUR);
+            }
+            entreeUtilisateur.nextLine();
+
+        } while(!saisieOk);
+        labyrintheActuel = new Labyrinthe(nbLignes,nbColonnes);
+    }
+
+    /** 
+     * Démarre le menu
+     * @param args
+     * @throws IOException 
+     */
+    public static void main(String[] args) throws IOException {
+        //nouveauLabyrinthe();
+        menu();
+
+    }
 
 }
