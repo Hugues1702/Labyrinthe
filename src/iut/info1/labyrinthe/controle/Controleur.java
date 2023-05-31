@@ -6,6 +6,8 @@ package iut.info1.labyrinthe.controle;
 
 import static iut.info1.labyrinthe.controle.ControleurFichier.ecritureFichier;
 import static iut.info1.labyrinthe.controle.ControleurFichier.nouveauFichier;
+import static iut.info1.labyrinthe.controle.ControleurFichier.recupDonnee;
+import iut.info1.labyrinthe.controle.ControleDeplacement;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +22,14 @@ import iut.info1.labyrinthe.Labyrinthe;
  */
 public class Controleur {
         
+    private static final char HAUT = 'H';
+
+    private static final char BAS = 'B';
+
+    private static final char DROITE = 'D';
+
+    private static final char GAUCHE = 'G';
+
     /** nombre de ligne dans un labyrinthe*/
     public static int nbLignes = 3;
     
@@ -34,6 +44,10 @@ public class Controleur {
         
         /** Récupère un fichier */
         public static File fichierLabyrintheActuel;
+        
+        /** La position du joueur */
+        public static int[] joueur = {0,0};
+        
         /** 
          * Affiche un menu pour l'utilisateur
          * @throws IOException 
@@ -85,6 +99,7 @@ public class Controleur {
                         nouveauFichier();
                 }
                 ecritureFichier();
+                //recupDonnee();
         }
         
         /** 
@@ -92,7 +107,32 @@ public class Controleur {
          * et l'affiche à l'utilisateur
          */
         public static void jouer() {
-                System.out.println(labyrintheActuel.toString());
+            String deplacementUtil;
+            boolean deplacementPossible = false;
+            int coordonneeAModif = 0;
+            deplacementUtil = entreeUtilisateur.nextLine();
+            if (deplacementUtil.charAt(0) == HAUT) {
+                coordonneeAModif = joueur[0];
+                deplacementPossible = labyrintheActuel.getSalle(joueur[0], joueur[1]).isPorteNord();
+                if (deplacementPossible) {
+                    coordonneeAModif++;
+                }
+            } else if (deplacementUtil.charAt(0) == BAS) {
+                coordonneeAModif = joueur[0];
+                deplacementPossible = labyrintheActuel.getSalle(joueur[0]+1, joueur[1]).isPorteNord();
+            } else if (deplacementUtil.charAt(0) == DROITE) {
+                coordonneeAModif = joueur[1];
+                deplacementPossible = labyrintheActuel.getSalle(joueur[0], joueur[1]+1).isPorteOuest();
+            } else if (deplacementUtil.charAt(0) == GAUCHE) {
+                coordonneeAModif = joueur[1];
+                deplacementPossible = (labyrintheActuel.getSalle(joueur[0], joueur[1]).isPorteOuest());
+            }
+            if (deplacementPossible) {
+                coordonneeAModif++;
+            } else {
+                System.out.println("Deplacement impossible");
+               // System.out.println(labyrintheActuel.toString());
+            }
         }
         
         /** 
