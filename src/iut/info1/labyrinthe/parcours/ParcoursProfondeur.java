@@ -1,0 +1,141 @@
+package iut.info1.labyrinthe.parcours;
+
+import static iut.info1.labyrinthe.Labyrinthe.EST;
+import static iut.info1.labyrinthe.Labyrinthe.NORD;
+import static iut.info1.labyrinthe.Labyrinthe.OUEST;
+import static iut.info1.labyrinthe.Labyrinthe.SUD;
+
+import java.util.Arrays;
+
+import iut.info1.labyrinthe.Labyrinthe;
+import iut.info1.labyrinthe.Salle;
+import iut.info1.sdd.Pile;
+
+/**
+ * Algorithme de parcours du labyrinthe en profondeur
+ * @author BAUDROIT Leïla
+ * @author BERTRAND Hugues
+ * @author BOYER Djedline
+ * @author BRIOT Nael
+ */
+public class ParcoursProfondeur {
+
+    /** La marque attribuée par cet algorithme aux sommets parcourus.*/
+    public static final int PARCOURU = 1;
+
+    /**
+     * Calcule le chemin de parcours optimal du labyrinthe de l'entrée en haut
+     * à gauche à la sortie en bas à droite.
+     * @param laby la labyrinthe que l'on souhaite parcourir.
+     * @return une pile d'{@code iut.info1.labyrinthe.Salle} dans lequel le 
+     * sommet est la sortie et le premier élément l'entrée. Chaque élément de
+     * la pile est une étape du chemin optimal de parcours.
+     */
+    public static Pile parcours(Labyrinthe laby) {
+        Pile pileSalles = new Pile();
+        Salle entree = laby.getSalle(0, 0);
+        Salle sortie = laby.getSalle(laby.getNbColonnes() - 1, laby.getNbLignes() - 1);
+
+        laby.resetMarques();
+        entree.setMarque(PARCOURU);
+        int ligneCourante;
+        int colonneCourante;
+
+        pileSalles.empiler(entree);
+        Salle sommetCourant = (Salle) pileSalles.sommet();
+
+        while (sommetCourant != sortie){
+            if (!pileSalles.estVide()) {
+                sommetCourant = (Salle) pileSalles.sommet();
+            }
+            ligneCourante = laby.getLigneSalle(sommetCourant);
+            colonneCourante = laby.getColonneSalle(sommetCourant);
+            System.out.printf("[%d;%d]\t", ligneCourante, colonneCourante);
+
+            Salle[] accessibles = sallesAccessiblesNonParcourues(laby, ligneCourante, colonneCourante);
+            if (isTousParcourus(accessibles)) {
+                if (!pileSalles.estVide()) {
+                    pileSalles.depiler();
+                }
+            } else {
+                int nombreHasard = (int) Math.random() * accessibles.length;
+                accessibles[nombreHasard].setMarque(PARCOURU);
+            }
+
+        };
+        laby.resetMarques();
+        // affichage
+        System.out.println("Etapes à reculons de l'arrivée :");
+        System.out.println(pileSalles);
+        return pileSalles;
+    }
+
+    private static boolean isTousParcourus(Salle[] salles) {
+        boolean resultat = true;
+        for (int i = 0 ; i < salles.length ; i++) {
+            resultat &= salles[i].getMarque() == PARCOURU;
+        }
+        return resultat;
+    }
+
+    /**
+     * @param laby le tableau dans lequel on cherche les salles
+     * @param ligne la ligne de la salle dont on veut les salles adjacentes
+     * @param colonne la colonne de la salle dont on veut les salles adjacentes
+     * @return un tableau de salles accessibles et non parcourues adjacentes à la salle
+     */
+    private static Salle[] sallesAccessiblesNonParcourues(Labyrinthe laby, int ligne, int colonne) {
+        Salle[] accessibles = new Salle[4];
+        int i = 0;
+
+        Salle salleCourante = laby.getSalle(ligne, colonne);
+        
+        Salle salleNord;
+        Salle salleOuest;
+        Salle salleEst;
+        Salle salleSud;
+
+        if (laby.hasSalleAdjacente(ligne, colonne, NORD)) {
+            salleNord = laby.getSalleAdjacente(ligne, colonne, NORD);
+            if (salleCourante.isPorteNord() && !isParcouru(salleNord)) {
+                accessibles[i] = salleNord;
+                i++;
+            }
+        }
+        
+        if (laby.hasSalleAdjacente(ligne, colonne, OUEST)) {
+            salleOuest = laby.getSalleAdjacente(ligne, colonne, OUEST);
+            if (salleCourante.isPorteOuest() && !isParcouru(salleOuest)) {
+                accessibles[i] = salleOuest;
+                i++;
+            }
+        }
+        
+        if (laby.hasSalleAdjacente(ligne, colonne, EST)) {
+            salleEst = laby.getSalleAdjacente(ligne, colonne, EST);
+            if (salleEst.isPorteOuest() && !isParcouru(salleEst)) {
+                accessibles[i] = salleEst;
+                i++;
+            }
+        }
+        
+        if (laby.hasSalleAdjacente(ligne, colonne, SUD)) {
+            salleSud = laby.getSalleAdjacente(ligne, colonne, SUD);
+            if (salleSud.isPorteNord() && !isParcouru(salleSud)) {
+                accessibles[i] = salleSud;
+                i++;
+            }
+        }
+        return Arrays.copyOf(accessibles, i);
+    }
+    
+    /**
+     * Vérifie la marque d'une salle.
+     * @param salle la salle à vérifier
+     * @return true si la marque de la salle vaut {@code ParcoursProfondeur#PARCOURU}
+     */
+    private static boolean isParcouru(Salle salle) {
+        return salle.getMarque() == PARCOURU;
+    }
+
+}
