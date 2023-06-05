@@ -6,8 +6,6 @@ package iut.info1.labyrinthe.controle;
 
 import static iut.info1.labyrinthe.controle.Controleur.fichierLabyrintheActuel;
 import static iut.info1.labyrinthe.controle.Controleur.labyrintheActuel;
-import static iut.info1.labyrinthe.controle.Controleur.nbColonnes;
-import static iut.info1.labyrinthe.controle.Controleur.nbLignes;
 
 
 import java.io.File;
@@ -22,17 +20,18 @@ import iut.info1.labyrinthe.Labyrinthe;
 
 
 /** 
- * 
+ * Permet de controler toutes les méthodes liées au fichier
  * @author djedline.boyer
  *
  */
 public class ControleurFichier {
         
-        private final static String BASE_NOM = "src\\SauvegardeLabyrinthe\\Labyrinthe";
+        private final static String BASE_NOM = "SauvegardeLabyrinthe\\Labyrinthe";
         private final static char SEPARATEUR = '_';
         
-        /** TODO method field role
-         * @return x
+        /** 
+         * Permet de rechercher le nombre de fichier dans un dossier
+         * @return le nombre de fichier trouvée
          */
         public static int nombreFichierSauvegarde() {
                 File monRepertoire = new File("SauvegardeLabyrinthe");
@@ -49,6 +48,7 @@ public class ControleurFichier {
                 }
                 return nombreFichier; 
         }
+        
         /** 
          * Crée un nouveau fichier avec les données de labyrinthe à l'intérieur
          * @throws IOException 
@@ -93,8 +93,7 @@ public class ControleurFichier {
             
             try {
                 ObjectInputStream is = new ObjectInputStream(new FileInputStream(fichierLabyrintheActuel));
-                Labyrinthe laby = (Labyrinthe) is.readObject();
-                System.out.println(laby);
+                labyrintheActuel = (Labyrinthe) is.readObject();
                 is.close();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -105,10 +104,31 @@ public class ControleurFichier {
             } 
             
         }
-            
-
         
+        /** 
+         * Permet de rechercher le nombre de fichier dans un dossier
+         */
+        public static void afficheFichierSauvegarde() {
+                File monRepertoire = new File("SauvegardeLabyrinthe");
+                File[] listeFichier = monRepertoire.listFiles();
+                
+                if (listeFichier == null) {
+                    System.out.println("Pas de fichier sauvegardée");
+                } else {
+                        for (int i = 0 ; i < listeFichier.length ; i++) {
+                            System.out.println(listeFichier[i]); 
+                        }
+                }
+        }
+        
+        /** 
+         * Permet de rechercher le nombre de fichier dans un dossier
+         * @param emplacementFichier 
+         */
+        public static void choixFichier(int emplacementFichier) {
+                File monRepertoire = new File("SauvegardeLabyrinthe");
+                File[] listeFichier = monRepertoire.listFiles();
+                fichierLabyrintheActuel = listeFichier[emplacementFichier];
+        }
+                   
 }
-
-        
-        

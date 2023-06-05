@@ -4,9 +4,7 @@
  */
 package iut.info1.labyrinthe.controle;
 
-import static iut.info1.labyrinthe.controle.ControleurFichier.ecritureFichier;
-import static iut.info1.labyrinthe.controle.ControleurFichier.nouveauFichier;
-import static iut.info1.labyrinthe.controle.ControleurFichier.afficheFichierSauvegarde;
+import iut.info1.labyrinthe.controle.ControleurFichier;
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
@@ -37,7 +35,7 @@ public class Controleur {
 
 
     /** permet de  déterminer la sortie du labyrinthe */
-    public static int[] arrivee = {nbLignes-1, nbColonnes-1};
+    public static int[] arrivee;
 
     /** permet de recueillir le choix de l'uitlisateur*/
     public static Scanner entreeUtilisateur = new Scanner(System.in);
@@ -81,12 +79,12 @@ public class Controleur {
         System.out.println("Bienvenue dans le jeu du labyrinthe !");
         do {
             System.out.print("\n\n" + MENU);
-            choixOptionUtil = entreeUtilisateur.nextLine();
+            choixOptionUtil = entreeUtilisateur.nextLine().trim();
             if (choixOptionUtil.length() == 1) {
                 choixOptionUtil = choixOptionUtil.toUpperCase();
                 switch (choixOptionUtil.charAt(0)) {
                 case GENERER_NOUVEAU_LABYRINTHE ->  nouveauLabyrinthe();
-                case TELECHARGER_LABYRINTHE ->  System.out.println("Vous voulez télécharger un labyrinthe");
+                case TELECHARGER_LABYRINTHE ->  ChoixFichierSauvegarde();
                 case JOUER -> { System.out.println("Création du labyrinthe :");
                 jouer();
                 }
@@ -99,7 +97,7 @@ public class Controleur {
             } else {
                 System.out.println("Cette option n'existe pas, entrer qu'une seule lettre");
             }
-        } while (!(choixOptionUtil.charAt(0) == QUITTER));
+        } while (choixOptionUtil.charAt(0) != QUITTER && choixOptionUtil != null );
     }
 
     /** 
@@ -108,9 +106,9 @@ public class Controleur {
      */
     public static void sauvegarderLabyrinthe() throws IOException {
         if (fichierLabyrintheActuel == null) {
-            nouveauFichier();
+            ControleurFichier.nouveauFichier();
         }
-        ecritureFichier();
+        ControleurFichier.ecritureFichier();
         //recupDonnee();
     }
 
@@ -123,6 +121,7 @@ public class Controleur {
      */
     public static void jouer() {
         joueur = new int[]{0,0};
+        arrivee = new int[]{nbLignes-1, nbColonnes-1};
         nbDeplacement = 0;
         labyrintheActuel.getSalle(joueur[0], joueur[1]).setSymbole("X");
         arrivee[0] = nbLignes-1;
@@ -136,7 +135,7 @@ public class Controleur {
                     + "Q,q -> pour se déplacer à gauche"
                     + "I,i -> pour interrompre la partie");
 
-            deplacementUtil = entreeUtilisateur.nextLine();
+            deplacementUtil = entreeUtilisateur.nextLine().trim();
             if (deplacementUtil.length() == 1) {
                 deplacementUtil = deplacementUtil.toUpperCase();
                 switch (deplacementUtil.charAt(0)) {
@@ -228,6 +227,39 @@ public class Controleur {
     }
 
 
+    /**
+     * 
+     */
+    public static void ChoixFichierSauvegarde() {
+        boolean saisieOk;
+        int nbFichier;
+        ControleurFichier.afficheFichierSauvegarde();
+        do {
+            System.out.print("\nEntrez un nombre correspondant au dernier "
+                    + "nombre faisant parti du nom du fichier correspondant:"
+                    + "\nExemple : entrer 0 pour télécharger le fichier :"
+                    + "\"SauvegardeLabyrinthe\\Labyrinthe_L3_C3_0\""
+                    + "\n Veuiller effectuer votre saisie : ");
+            saisieOk = entreeUtilisateur.hasNextInt();
+            if (saisieOk) {
+                nbFichier = entreeUtilisateur.nextInt();
+                saisieOk = nbFichier < ControleurFichier.nombreFichierSauvegarde()
+                         && nbFichier >= 0;
+                if (saisieOk) {
+                    System.out.println("Début téléchargement");
+                    ControleurFichier.choixFichier(nbFichier);
+                    ControleurFichier.RecupDonnee();
+                    nbLignes = labyrintheActuel.getNbLignes();
+                    nbColonnes = labyrintheActuel.getNbColonnes();
+                    System.out.println("Fin téléchargement");
+                }
+            }
+            if (!saisieOk) {
+                System.err.println("Ce fichier n'existe pas");
+            }
+            entreeUtilisateur.nextLine();
+        } while(!saisieOk);
+    }
 
     /** 
      * Démarre le jeu en ouvrant le menu
@@ -236,8 +268,7 @@ public class Controleur {
      */
     public static void main(String[] args) throws IOException {
         //nouveauLabyrinthe();
-        //menu();
-        afficheFichierSauvegarde();
+        menu();
 
     }
 
