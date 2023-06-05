@@ -79,7 +79,7 @@ public class Controleur {
 
         System.out.println("Bienvenue dans le jeu du labyrinthe !");
         do {
-            System.out.print("\n\n\n" + MENU);
+            System.out.print("\n\n" + MENU);
             choixOptionUtil = entreeUtilisateur.nextLine();
             if (choixOptionUtil.length() == 1) {
                 choixOptionUtil = choixOptionUtil.toUpperCase();
@@ -132,20 +132,21 @@ public class Controleur {
             System.out.println("Z,z -> pour se déplacer en haut\n"
                     + "S,s -> pour se déplacer en bas\n"
                     + "D,d -> pour se déplacer à droite\n"
-                    + "Q,q -> pour se déplacer à gauche");
+                    + "Q,q -> pour se déplacer à gauche"
+                    + "I,i -> pour interrompre la partie");
 
      deplacementUtil = entreeUtilisateur.nextLine();
             if (deplacementUtil.length() == 1) {
                 deplacementUtil = deplacementUtil.toUpperCase();
                 switch (deplacementUtil.charAt(0)) {
-                case HAUT, BAS,DROITE,GAUCHE  ->  deplacement();
-                case 'I' ->  nouveauLabyrinthe();
+                case HAUT, BAS, DROITE,GAUCHE  ->  deplacement();
+                case 'I' ->  System.out.println("Partie interrompue, sauvegarde de la partie");
                 default -> System.out.println("Cette option n'existe pas, choisissez les options proposés");
                 }
             } else {
                 System.out.println("Cette option n'existe pas, entrer qu'une seule lettre");
             }
-        } while (!jeuFini);
+        } while (!jeuFini && deplacementUtil.charAt(0) != 'I');
         for (int ligne = 0 ; ligne < nbLignes ; ligne++) {
             for (int colonne = 0 ; colonne < nbColonnes ; colonne++) {
                 labyrintheActuel.getSalle(ligne, colonne).setSymbole(" ");
