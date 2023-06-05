@@ -6,6 +6,7 @@ package iut.info1.labyrinthe.controle;
 
 import static iut.info1.labyrinthe.controle.ControleurFichier.ecritureFichier;
 import static iut.info1.labyrinthe.controle.ControleurFichier.nouveauFichier;
+import static iut.info1.labyrinthe.controle.ControleurFichier.afficheFichierSauvegarde;
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
@@ -51,17 +52,17 @@ public class Controleur {
     public static int[] joueur;
 
     private static String deplacementUtil;
-    
+
     static int nbDeplacement; 
-    
+
     static boolean jeuFini = false;
-    
+
     static String choixOptionUtil;
     final static String MENU = "Veuillez choisir l'une des options suivantes."
             + "\nG ou g : Genere un nouveau labyrinthe"
             + "\nT ou t : Telecharger un labyrinthe qui existe deja"
             + "\nJ ou j : Permet de jouer avec le dernier labyrinthe telecharge/genere"
-            + "\nS ou s : Sauvegarde le dernier labyrinthe telecharge/genere"
+            + "\nS ou s : Sauvegarde le dernier labyrinthe telecharge/genere dans un nouveau fichier"
             + "\nQ ou q : Permet de quitter le programme"
             + "\nEntrer l'option choisie :";
     final static char GENERER_NOUVEAU_LABYRINTHE = 'G';
@@ -135,11 +136,11 @@ public class Controleur {
                     + "Q,q -> pour se déplacer à gauche"
                     + "I,i -> pour interrompre la partie");
 
-     deplacementUtil = entreeUtilisateur.nextLine();
+            deplacementUtil = entreeUtilisateur.nextLine();
             if (deplacementUtil.length() == 1) {
                 deplacementUtil = deplacementUtil.toUpperCase();
                 switch (deplacementUtil.charAt(0)) {
-                case HAUT, BAS, DROITE,GAUCHE  ->  deplacement();
+                case HAUT, BAS, DROITE,GAUCHE  ->  deplacementVisible();
                 case 'I' ->  System.out.println("Partie interrompue, sauvegarde de la partie");
                 default -> System.out.println("Cette option n'existe pas, choisissez les options proposés");
                 }
@@ -150,7 +151,7 @@ public class Controleur {
         for (int ligne = 0 ; ligne < nbLignes ; ligne++) {
             for (int colonne = 0 ; colonne < nbColonnes ; colonne++) {
                 labyrintheActuel.getSalle(ligne, colonne).setSymbole(" ");
-                
+
             }
         }
     }
@@ -160,7 +161,7 @@ public class Controleur {
      * Envoie un message lorsque le déplacement est impossible
      * Déplace l'utilisateur selon choix et si déplacement possible
      */
-    public static void deplacement() {
+    public static void deplacementVisible() {
         try {
             if (deplacementUtil.charAt(0) == HAUT) {
                 ControleDeplacement.deplacementHaut();
@@ -184,7 +185,10 @@ public class Controleur {
             System.out.println("Deplacement impossible");
             jeuFini = false;
         }
+
     }
+
+
 
     /** 
      * Créer un nouveau labyrinthe
@@ -195,8 +199,8 @@ public class Controleur {
         boolean saisieOk;
         final String MESSAGE_ERREUR = "Erreur :Il faut entrer un nombre entier plus grand que 3 ";
         System.out.print("Pour une meilleur experience de jeu,"
-                       + "il est déconseillé de dépasser 17 pour le nombre de ligne"
-                       + " et 30 pour le nombre de colonne.");
+                + "il est déconseillé de dépasser 17 pour le nombre de ligne"
+                + " et 30 pour le nombre de colonne.");
         do {
             System.out.print("\nEntrez un nombre de lignes :");
             saisieOk = entreeUtilisateur.hasNextInt();
@@ -220,7 +224,10 @@ public class Controleur {
 
         } while(!saisieOk);
         labyrintheActuel = new Labyrinthe(nbLignes,nbColonnes);
+        fichierLabyrintheActuel = null;
     }
+
+
 
     /** 
      * Démarre le jeu en ouvrant le menu
@@ -229,7 +236,8 @@ public class Controleur {
      */
     public static void main(String[] args) throws IOException {
         //nouveauLabyrinthe();
-        menu();
+        //menu();
+        afficheFichierSauvegarde();
 
     }
 
