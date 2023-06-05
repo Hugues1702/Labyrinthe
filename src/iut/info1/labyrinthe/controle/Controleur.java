@@ -5,6 +5,8 @@
 package iut.info1.labyrinthe.controle;
 
 import iut.info1.labyrinthe.controle.ControleurFichier;
+import iut.info1.sdd.Pile;
+import iut.info1.labyrinthe.parcours.ParcoursProfondeur;
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
@@ -26,6 +28,9 @@ public class Controleur {
     private static final char DROITE = 'D';
 
     private static final char GAUCHE = 'Q';
+    
+    /** TODO comment field role (attribute, association) */
+    public static Pile cheminOptimal;
 
     /** nombre de ligne dans un labyrinthe*/
     public static int nbLignes = 3;
@@ -33,6 +38,7 @@ public class Controleur {
     /** nombre de colonnes */
     public static int nbColonnes = 3;
 
+    static Salle salle;
 
     /** permet de  déterminer la sortie du labyrinthe */
     public static int[] arrivee;
@@ -147,6 +153,9 @@ public class Controleur {
                 System.out.println("Cette option n'existe pas, entrer qu'une seule lettre");
             }
         } while (!jeuFini && deplacementUtil.charAt(0) != 'I');
+        cheminOptimal = ParcoursProfondeur.parcours(labyrintheActuel);
+        System.out.println("Score optimal : " + (cheminOptimal.getTaille()-1));
+        cheminOptimalOrdi();
         for (int ligne = 0 ; ligne < nbLignes ; ligne++) {
             for (int colonne = 0 ; colonne < nbColonnes ; colonne++) {
                 labyrintheActuel.getSalle(ligne, colonne).setSymbole(" ");
@@ -155,6 +164,21 @@ public class Controleur {
         }
     }
 
+    /**
+     * Permet le déplacement dans le labyrinthe
+     * Envoie un message lorsque le déplacement est impossible
+     * Déplace l'utilisateur selon choix et si déplacement possible
+     */
+    public static void cheminOptimalOrdi() {
+        for(int index = cheminOptimal.getTaille(); index > 0 ; index--) {
+            salle = (Salle) cheminOptimal.sommet();
+            salle.setSymbole("o");
+            cheminOptimal.depiler();
+        }
+        System.out.println(labyrintheActuel.toString());
+        
+    }
+    
     /**
      * Permet le déplacement dans le labyrinthe
      * Envoie un message lorsque le déplacement est impossible

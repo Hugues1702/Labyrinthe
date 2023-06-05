@@ -4,7 +4,6 @@
  */
 package iut.info1.labyrinthe.controle;
 
-import iut.info1.labyrinthe.Salle;
 import static iut.info1.labyrinthe.controle.Controleur.labyrintheActuel;
 import static iut.info1.labyrinthe.controle.Controleur.joueur;
 import static iut.info1.labyrinthe.controle.Controleur.nbLignes;
@@ -12,22 +11,14 @@ import static iut.info1.labyrinthe.controle.Controleur.nbColonnes;
 
 /** 
  * Permet de gérer le déplacement de l'utilisateur dans un labyrinthe
- * @author Djed
+ * @author Leïla Baudroit
+ * @author Hugues Bertrand
+ * @author Djedline Boyer
+ * @author Nael Briot
  *
  */
 public class ControleDeplacement {
-    
-
-    /** 
-     * Permet à l'utilisateur de se déplacer dans le labyrinthe.
-     * @param salleAVerif 
-     * @return la nouvelle position de l'utilisateur
-     */
-    public static int deplacement(Salle salleAVerif) {
-
-        return 0;
-    }
-    
+       
     /** 
      * Premet de savoir si un deplacement en haut est possible
      * et si true alors on deplace l'utilisateur
@@ -70,9 +61,12 @@ public class ControleDeplacement {
          }
     }
     
-    /** TODO comment method role
-     * @param ligne
-     * @param colonne
+    /** 
+     * Permet de savoir si un deplacement à droite est possible
+     * et si true alors on deplace l'utilisateur
+     * @param ligne la position du l'utilisateur dans les lignes du tableau
+     * @param colonne la position du l'utilisateur dans les colonnes du tableau
+     * @throws si deplacement impossible
      */
     public static void deplacementDroite() {
         boolean deplacementPossible = joueur[1]+1 < nbColonnes;
@@ -88,9 +82,12 @@ public class ControleDeplacement {
          }
     }
     
-    /** TODO comment method role
-     * @param ligne
-     * @param colonne
+    /** 
+     * Permet de savoir si un deplacement à gauche est possible
+     * et si true alors on deplace l'utilisateur
+     * @param ligne la position du l'utilisateur dans les lignes du tableau
+     * @param colonne la position du l'utilisateur dans les colonnes du tableau
+     * @throws si deplacement impossible
      */
     public static void deplacementGauche() {
         boolean deplacementPossible = joueur[1]>= 0;
