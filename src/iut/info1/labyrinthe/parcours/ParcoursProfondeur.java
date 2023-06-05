@@ -27,62 +27,84 @@ public class ParcoursProfondeur {
      * Calcule le chemin de parcours optimal du labyrinthe de l'entrée en haut
      * à gauche à la sortie en bas à droite.
      * @param laby la labyrinthe que l'on souhaite parcourir.
-     * @return une pile d'{@code iut.info1.labyrinthe.Salle} dans lequel le 
-     * sommet est la sortie et le premier élément l'entrée. Chaque élément de
-     * la pile est une étape du chemin optimal de parcours.
+     * @return une pile d'{@code iut.info1.labyrinthe.Salle} dans lequel 
+     * le sommet est la dernière salle avant l'entrée et le premier 
+     * élément l'entrée. Chaque élément de la pile est une étape du 
+     * chemin optimal de parcours.
      */
     public static Pile parcours(Labyrinthe laby) {
         Pile pileSalles = new Pile();
         Salle entree = laby.getSalle(0, 0);
-        Salle sortie = laby.getSalle(laby.getNbColonnes() - 1, laby.getNbLignes() - 1);
+        Salle sortie = laby.getSalle(laby.getNbColonnes() - 1, 
+        						     laby.getNbLignes() - 1);
 
         laby.resetMarques();
         entree.setMarque(PARCOURU);
-        int ligneCourante;
-        int colonneCourante;
+        int ligneCourante = 0;
+        int colonneCourante = 0;
 
         pileSalles.empiler(entree);
         Salle sommetCourant = (Salle) pileSalles.sommet();
 
-        while (sommetCourant != sortie){
+        do {
+        	Salle[] accessibles = sallesAccessiblesNonParcourues(laby, 
+        				ligneCourante, colonneCourante);
+            if (accessibles.length == 0) {
+                if (!pileSalles.estVide()) {
+                    pileSalles.depiler();
+                }
+            } else {
+                int nombreHasard = (int) 
+                		Math.random() * accessibles.length;
+                Salle sommetHasard = accessibles[nombreHasard];
+                sommetHasard.setMarque(PARCOURU);
+                pileSalles.empiler(sommetHasard);
+            }
+            
+            // changement du sommetCourant
             if (!pileSalles.estVide()) {
                 sommetCourant = (Salle) pileSalles.sommet();
             }
             ligneCourante = laby.getLigneSalle(sommetCourant);
             colonneCourante = laby.getColonneSalle(sommetCourant);
-            System.out.printf("[%d;%d]\t", ligneCourante, colonneCourante);
-
-            Salle[] accessibles = sallesAccessiblesNonParcourues(laby, ligneCourante, colonneCourante);
-            if (isTousParcourus(accessibles)) {
-                if (!pileSalles.estVide()) {
-                    pileSalles.depiler();
-                }
-            } else {
-                int nombreHasard = (int) Math.random() * accessibles.length;
-                accessibles[nombreHasard].setMarque(PARCOURU);
-            }
-
-        };
+        } while (sommetCourant != sortie);
         laby.resetMarques();
-        // affichage
-        System.out.println("Etapes à reculons de l'arrivée :");
-        System.out.println(pileSalles);
         return pileSalles;
     }
-
-    private static boolean isTousParcourus(Salle[] salles) {
-        boolean resultat = true;
-        for (int i = 0 ; i < salles.length ; i++) {
-            resultat &= salles[i].getMarque() == PARCOURU;
+    
+    /**
+     * Affiche la pile de Salle résultat d'un parcours en profondeur.
+     * Dépile entièrement la Pile passée en paramètre.
+     */
+    public static void afficherAvecDepilage(Labyrinthe laby, 
+    										Pile cheminOptimal,
+    										boolean arriveeEnDernier) {
+        if (arriveeEnDernier) {
+        	System.out.println("Etapes à reculons de l'arrivée :");
+        } else {
+        	System.out.println("Etapes depuis le départ :");
         }
-        return resultat;
+        do {
+        	Salle salleAAfficher = (Salle) cheminOptimal.sommet();
+        	System.out.printf("[%d;%d]", 
+        			laby.getLigneSalle(salleAAfficher),
+        			laby.getColonneSalle(salleAAfficher));
+        	cheminOptimal.depiler();
+        	if (!cheminOptimal.estVide()) {
+        		System.out.print(", ");
+        	}
+        } while(!cheminOptimal.estVide());
     }
+
 
     /**
      * @param laby le tableau dans lequel on cherche les salles
-     * @param ligne la ligne de la salle dont on veut les salles adjacentes
-     * @param colonne la colonne de la salle dont on veut les salles adjacentes
-     * @return un tableau de salles accessibles et non parcourues adjacentes à la salle
+     * @param ligne la ligne de la salle dont on veut les salles 
+     * 		adjacentes
+     * @param colonne la colonne de la salle dont on veut les salles 
+     * 		adjacentes
+     * @return un tableau de salles accessibles et non parcourues 
+     * 		adjacentes à la salle
      */
     private static Salle[] sallesAccessiblesNonParcourues(Labyrinthe laby, int ligne, int colonne) {
         Salle[] accessibles = new Salle[4];

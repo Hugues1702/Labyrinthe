@@ -14,11 +14,9 @@ class TestAlgo1 {
 
 	@Test
 	void testLabyrinthe() {
-		System.out.println(new Labyrinthe(3, 3));
-		System.out.println(new Labyrinthe(4, 4));
-		System.out.println(new Labyrinthe(5, 5));
-		System.out.println(new Labyrinthe(6, 6));
-		ParcoursProfondeur.parcours(new Labyrinthe(4, 4));
+		Labyrinthe test = new Labyrinthe(4,4);
+		System.out.println(test);
+		ParcoursProfondeur.parcours(test);
 	}
 
 }
