@@ -1,5 +1,7 @@
 package iut.info1.labyrinthe;
 
+import java.io.Serializable;
+
 /**
  * Représente une salle de labyrinthe, avec ses murs au nord et à
  * l'ouest.
@@ -8,7 +10,7 @@ package iut.info1.labyrinthe;
  * @author BOYER Djedline
  * @author BRIOT Nael
  */
-public class Salle {
+public class Salle implements Serializable{
         
         String symbole;
         
@@ -135,18 +137,37 @@ public class Salle {
                 return index == other.index && porteNord == other.porteNord && porteOuest == other.porteOuest;
         }
         
-        /** TODO comment method role
-         * @return resultat
+        /** 
+         * Permet de connaître si l'utilisateur est présent
+         * @return X si l'utilisateur est présent dans la salle
+         *         . si l'utilisateur est passée dans la salle
+         *         espace sinon
          */
         public String getPresenceJoueur() {
             return symbole;
         }
         
-        /** TODO comment method role
-         * @param choixSymbole 
+        /** 
+         * PModifie le symbole à afficher
+         * @param choixSymbole récupère le symbole à afficher dans la salle :
+         *  X si l'utilisateur est présent dans la salle
+         *  . si l'utilisateur est passée dans la salle
+         *  espace sinon 
          */
         public void setSymbole(String choixSymbole) {
             symbole = choixSymbole;
         }
+
+        /* non javadoc - @see java.lang.Object#toString() */
+        @Override
+        public String toString() {
+            String resultat = "";
+            if(isPorteNord()) {
+                resultat += "-----+\n";
+            }
+            return resultat;
+        }
+        
+        
 
 }
