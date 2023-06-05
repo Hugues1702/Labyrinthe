@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import iut.info1.labyrinthe.Labyrinthe;
+import iut.info1.labyrinthe.Salle;
 
 
 /** TODO comment class responsability(SRP)
@@ -34,7 +35,7 @@ public class Controleur {
     public static int nbColonnes = 3;
 
 
-    /** TODO comment field role (attribute, association) */
+    /** permet de  déterminer la sortie du labyrinthe */
     public static int[] arrivee = {nbLignes-1, nbColonnes-1};
 
     /** permet de recueillir le choix de l'uitlisateur*/
@@ -50,6 +51,8 @@ public class Controleur {
     public static int[] joueur;
 
     private static String deplacementUtil;
+    
+    static int nbDeplacement; 
     
     static boolean jeuFini = false;
     
@@ -119,6 +122,7 @@ public class Controleur {
      */
     public static void jouer() {
         joueur = new int[]{0,0};
+        nbDeplacement = 0;
         labyrintheActuel.getSalle(joueur[0], joueur[1]).setSymbole("X");
         arrivee[0] = nbLignes-1;
         arrivee[1] = nbColonnes-1;
@@ -142,6 +146,12 @@ public class Controleur {
                 System.out.println("Cette option n'existe pas, entrer qu'une seule lettre");
             }
         } while (!jeuFini);
+        for (int ligne = 0 ; ligne < nbLignes ; ligne++) {
+            for (int colonne = 0 ; colonne < nbColonnes ; colonne++) {
+                labyrintheActuel.getSalle(ligne, colonne).setSymbole(" ");
+                
+            }
+        }
     }
 
     /**
@@ -161,11 +171,13 @@ public class Controleur {
                 ControleDeplacement.deplacementGauche();
             }
             //System.out.println("( " + joueur[0] + ";"+ joueur[1] + " )");
+            nbDeplacement++;
             labyrintheActuel.getSalle(joueur[0], joueur[1]).setSymbole("X");
             System.out.println(labyrintheActuel.toString());            
             jeuFini = arrivee[0] == joueur[0] && arrivee[1] == joueur[1];
             if (jeuFini) {
-                System.out.println("Bravo !! Vous etes sortis");
+                System.out.println("Bravo !! Vous etes sortis " 
+                        + "\nVotre score est de : " + nbDeplacement);
             }
         } catch (IllegalArgumentException erreur) {
             System.out.println("Deplacement impossible");
