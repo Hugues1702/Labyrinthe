@@ -10,16 +10,17 @@ import static iut.info1.labyrinthe.controle.Controleur.joueur;
 import static iut.info1.labyrinthe.controle.Controleur.nbLignes;
 import static iut.info1.labyrinthe.controle.Controleur.nbColonnes;
 
-/** TODO comment class responsibility (SRP)
+/** 
+ * Permet de gérer le déplacement de l'utilisateur dans un labyrinthe
  * @author Djed
  *
  */
 public class ControleDeplacement {
     
-    private final char HAUT ='H';
-    private final char BAS ='B';
+    private final char HAUT ='Z';
+    private final char BAS ='S';
     private final char DROITE ='D';
-    private final char GAUCHE ='G';
+    private final char GAUCHE ='Q';
 
     /** 
      * Permet à l'utilisateur de se déplacer dans le labyrinthe.
@@ -31,9 +32,11 @@ public class ControleDeplacement {
         return 0;
     }
     
-    /** TODO comment method role
-     * @param ligne
-     * @param colonne
+    /** 
+     * Premet de savoir si un deplacement en haut est possible
+     * et si true alors on deplace l'utilisateur
+     * @param ligne la position du l'utilisateur dans les lignes du tableau
+     * @param colonne la position du l'utilisateur dans les colonnes du tableau
      */
     public static void deplacementHaut() {
         boolean deplacementPossible = joueur[0] >= 0;
@@ -49,9 +52,11 @@ public class ControleDeplacement {
          }
     }
     
-    /** TODO comment method role
-     * @param ligne
-     * @param colonne
+    /** 
+     * Premet de savoir si un deplacement en bas est possible
+     * et si true alors on deplace l'utilisateur
+     * @param ligne la position du l'utilisateur dans les lignes du tableau
+     * @param colonne la position du l'utilisateur dans les colonnes du tableau
      * @throws si deplacement impossible
      */
     public static void deplacementBas() {
@@ -97,7 +102,7 @@ public class ControleDeplacement {
             deplacementPossible = labyrintheActuel.getSalle(joueur[0], joueur[1]).isPorteOuest();
             if (deplacementPossible) {
                 changementSalle();
-                joueur[0]--;
+                joueur[1]--;
             }
         }
         if (!deplacementPossible) {
