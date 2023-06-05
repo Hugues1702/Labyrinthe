@@ -54,7 +54,7 @@ public class Controleur {
     static boolean jeuFini = false;
     
     static String choixOptionUtil;
-    final static String MENU = " Veuillez choisir l'une des options suivantes."
+    final static String MENU = "Veuillez choisir l'une des options suivantes."
             + "\nG ou g : Genere un nouveau labyrinthe"
             + "\nT ou t : Telecharger un labyrinthe qui existe deja"
             + "\nJ ou j : Permet de jouer avec le dernier labyrinthe telecharge/genere"
@@ -74,7 +74,7 @@ public class Controleur {
      */
     public static void menu() throws IOException {
 
-
+        System.out.println("Bienvenue dans le jeu du labyrinthe !");
         do {
             System.out.print("\n\n\n" + MENU);
             choixOptionUtil = entreeUtilisateur.nextLine();

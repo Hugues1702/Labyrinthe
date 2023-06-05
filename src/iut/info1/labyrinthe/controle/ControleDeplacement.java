@@ -17,10 +17,6 @@ import static iut.info1.labyrinthe.controle.Controleur.nbColonnes;
  */
 public class ControleDeplacement {
     
-    private final char HAUT ='Z';
-    private final char BAS ='S';
-    private final char DROITE ='D';
-    private final char GAUCHE ='Q';
 
     /** 
      * Permet à l'utilisateur de se déplacer dans le labyrinthe.
