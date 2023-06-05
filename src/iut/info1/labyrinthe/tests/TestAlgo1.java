@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import iut.info1.labyrinthe.Labyrinthe;
+import iut.info1.labyrinthe.parcours.ParcoursProfondeur;
 
 class TestAlgo1 {
 
@@ -17,6 +18,7 @@ class TestAlgo1 {
 		System.out.println(new Labyrinthe(4, 4));
 		System.out.println(new Labyrinthe(5, 5));
 		System.out.println(new Labyrinthe(6, 6));
+		ParcoursProfondeur.parcours(new Labyrinthe(4, 4));
 	}
 
 }

@@ -1,43 +1,57 @@
 package iut.info1.labyrinthe.parcours;
 
+import static iut.info1.labyrinthe.Labyrinthe.EST;
+import static iut.info1.labyrinthe.Labyrinthe.NORD;
+import static iut.info1.labyrinthe.Labyrinthe.OUEST;
+import static iut.info1.labyrinthe.Labyrinthe.SUD;
+
+import java.util.Arrays;
+
 import iut.info1.labyrinthe.Labyrinthe;
 import iut.info1.labyrinthe.Salle;
 import iut.info1.sdd.Pile;
 
-import static iut.info1.labyrinthe.Labyrinthe.NORD;
-import static iut.info1.labyrinthe.Labyrinthe.SUD;
-import static iut.info1.labyrinthe.Labyrinthe.EST;
-import static iut.info1.labyrinthe.Labyrinthe.OUEST;
-
+/**
+ * Algorithme de parcours du labyrinthe en profondeur
+ */
 public class ParcoursProfondeur {
 
 	public ParcoursProfondeur() {
 	}
 
-	public void parcours(Labyrinthe laby) {
-		Pile<Salle> pileSalles = new Pile();
+	public static void parcours(Labyrinthe laby) {
+		final int PARCOURU = 1;
+		Pile<Salle> pileSalles = new Pile<>();
 		Salle entree = laby.getSalle(0, 0);
-		Salle sortie = laby.getSalle(laby.getNbColonnes(), laby.getNbLignes());
+		Salle sortie = laby.getSalle(laby.getNbColonnes() - 1, laby.getNbLignes() - 1);
 		
 		laby.resetMarques();
-		entree.setMarque(1);
+		entree.setMarque(PARCOURU);
 		pileSalles.empiler(entree);
 		Salle sommetCourant = entree;
 		int ligneCourante = 0;
 		int colonneCourante = 0;
-		do {
+		while (!sommetCourant.equals(sortie)){
 			Salle[] accessibles = getSallesAccessibles(laby, ligneCourante, colonneCourante);
 			if (isTousParcourus(accessibles)) {
 				if (!pileSalles.estVide()) {
 					pileSalles.depiler();
 				}
 			} else {
-				int nombreHasard = (int) Math.random() * 4; // TODO attention yen a pas forcément 4
+				int nombreHasard = (int) Math.random() * accessibles.length;
+				accessibles[nombreHasard].setMarque(PARCOURU);
 			}
-		} while (!sommetCourant.equals(sortie));
+			sommetCourant = pileSalles.sommet();
+		};
+		// affichage
+		System.out.println("Etapes à reculons de l'arrivée :");
+		do {
+			System.out.print(pileSalles.sommet() + ", ");
+			pileSalles.depiler();
+		} while (!pileSalles.estVide());
 	}
 
-	private boolean isTousParcourus(Salle[] salles) {
+	private static boolean isTousParcourus(Salle[] salles) {
 		boolean resultat = true;
 		for (int i = 0 ; i < salles.length ; i++) {
 			resultat &= salles[i].getMarque() == 1;
@@ -45,29 +59,29 @@ public class ParcoursProfondeur {
 		return resultat;
 	}
 
-	private Salle[] getSallesAccessibles(Labyrinthe laby, int ligne, int colonne) {
-		
-		/*
-		Salle[] adjacentes = laby.getSallesAdjacentes(ligne, colonne);
+	private static Salle[] getSallesAccessibles(Labyrinthe laby, int ligne, int colonne) {
+		Salle[] accessibles = new Salle[4];
 		int i = 0;
-		if (adjacentes[0]!= null && adjacentes[0].isPorteNord()) {
-			accessibles[0] = adjacentes[i];
+		Salle salleCourante = laby.getSalle(ligne, colonne);
+		if (salleCourante.isPorteNord()) {
+			accessibles[i] = laby.getSalleAdjacente(ligne, colonne, NORD);
 			i++;
 		}
-		if (adjacentes[1]!= null && adjacentes[1].isPorteOuest()) {
-			accessibles[1] = adjacentes[i];
+		if (salleCourante.isPorteOuest()) {
+			accessibles[i] = laby.getSalleAdjacente(ligne, colonne, OUEST);
 			i++;
 		}
-		if (adjacentes[2]!= null && laby.getSalle(ligne, colonne + 1).isPorteOuest()) {
-			accessibles[2] = adjacentes[i];
+		Salle salleSud = laby.getSalleAdjacente(ligne, colonne, SUD);
+		if (salleSud.isPorteNord()) {
+			accessibles[i] = salleSud;
 			i++;
 		}
-		if (adjacentes[3]!= null && laby.getSalle(ligne + 1, colonne).isPorteNord()) {
-			accessibles[3] = adjacentes[i];
+		Salle salleEst = laby.getSalleAdjacente(ligne, colonne, EST);
+		if (salleSud.isPorteOuest()) {
+			accessibles[i] = salleEst;
 			i++;
 		}
-		*/
-		return accessibles;
+		return Arrays.copyOf(accessibles, i);
 	}
 
 }
