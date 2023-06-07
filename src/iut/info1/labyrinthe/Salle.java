@@ -35,6 +35,21 @@ public class Salle implements Serializable{
         int marque;
         
         /**
+		 * Crée une salle de labyrinthe avec un numéro d'index.
+		 * @param index le numéro assigné à la salle
+		 */
+		public Salle(int index) {
+		        super();
+		        if (!isValide(index)) {
+		                throw new IllegalArgumentException();
+		        }
+		        this.index = index;
+		        this.marque = 0;
+		        
+		        this.symbole = " ";
+		}
+
+		/**
          * @return marque la marque assignée à la salle
          */
         public int getMarque() {
@@ -46,21 +61,6 @@ public class Salle implements Serializable{
          */
         public void setMarque(int marque) {
                 this.marque = marque;
-        }
-
-        /**
-         * Crée une salle de labyrinthe avec un numéro d'index.
-         * @param index le numéro assigné à la salle
-         */
-        public Salle(int index) {
-                super();
-                if (!isValide(index)) {
-                        throw new IllegalArgumentException();
-                }
-                this.index = index;
-                this.marque = 0;
-                
-                this.symbole = " ";
         }
 
         /**
@@ -167,6 +167,38 @@ public class Salle implements Serializable{
             }
             return resultat;
         }
+
+		@Override
+		public int hashCode() {
+		    int resultat = index;
+		    resultat *= 10;
+		    resultat += isPorteNord() ? 0 : 1;
+		    resultat *= 10;
+		    resultat += isPorteNord() ? 0 : 1;
+		    return resultat;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+		        if (this == obj)
+		                return true;
+		        if (obj == null)
+		                return false;
+		        if (getClass() != obj.getClass())
+		                return false;
+		        Salle other = (Salle) obj;
+		        return index == other.index && porteNord == other.porteNord && porteOuest == other.porteOuest;
+		}
+
+		/* non javadoc - @see java.lang.Object#toString() */
+		@Override
+		public String toString() {
+		    String resultat = "";
+		    if(isPorteNord()) {
+		        resultat += "-----+\n";
+		    }
+		    return resultat;
+		}
         
         
 
