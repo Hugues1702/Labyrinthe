@@ -73,33 +73,6 @@ public class ParcoursProfondeur {
     }
 
     /**
-     * Affiche la pile de Salle résultat d'un parcours en profondeur.
-     * Dépile entièrement la Pile passée en paramètre.
-     * @param laby 
-     * @param cheminOptimal 
-     * @param arriveeEnDernier 
-     */
-    public static void afficherAvecDepilage(Labyrinthe laby, Pile cheminOptimal,
-            boolean arriveeEnDernier) {
-        if (arriveeEnDernier) {
-            System.out.println("Etapes à reculons de l'arrivée :");
-        } else {
-            System.out.println("Etapes depuis le départ :");
-        }
-        do {
-            Salle salleAAfficher = (Salle) cheminOptimal.sommet();
-            System.out.printf("[%d;%d]", 
-                    laby.getLigneSalle(salleAAfficher),
-                    laby.getColonneSalle(salleAAfficher));
-            cheminOptimal.depiler();
-            if (!cheminOptimal.estVide()) {
-                System.out.print(", ");
-            }
-        } while(!cheminOptimal.estVide());
-    }
-
-
-    /**
      * @param laby le tableau dans lequel on cherche les salles
      * @param ligne la ligne de la salle dont on veut les salles 
      *          adjacentes

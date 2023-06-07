@@ -27,7 +27,7 @@ import iut.info1.labyrinthe.Labyrinthe;
  */
 class TestLabyrinthe {
 
-    List<Labyrinthe> correctes = new ArrayList<Labyrinthe>();
+    private List<Labyrinthe> correctes = new ArrayList<Labyrinthe>();
 
     @BeforeEach
     void setUp() throws Exception {

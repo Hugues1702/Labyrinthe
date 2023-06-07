@@ -19,7 +19,7 @@ public class Pile {
         private static final int TAILLE_INITIALE = 10;
         
         /** Indice du sommet */
-        int taille;
+        private int taille;
         
         /** corps de la liste qui contient des objects */
         private Object[] corpsPile;
