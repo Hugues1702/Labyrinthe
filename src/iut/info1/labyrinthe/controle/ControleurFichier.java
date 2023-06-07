@@ -93,7 +93,7 @@ public class ControleurFichier {
             
             try {
                 ObjectInputStream is = new ObjectInputStream(new FileInputStream(fichierLabyrintheActuel));
-                labyrintheActuel = (Labyrinthe) is.readObject();
+                labyrintheActuel = (Labyrinthe)is.readObject();
                 is.close();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -116,7 +116,7 @@ public class ControleurFichier {
                     System.out.println("Pas de fichier sauvegardée");
                 } else {
                         for (int i = 0 ; i < listeFichier.length ; i++) {
-                            System.out.println(listeFichier[i]); 
+                            System.out.println(listeFichier[i] + " : " + i); 
                         }
                 }
         }

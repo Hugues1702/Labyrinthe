@@ -28,7 +28,7 @@ public class Controleur {
     private static final char DROITE = 'D';
 
     private static final char GAUCHE = 'Q';
-    
+
     /** TODO comment field role (attribute, association) */
     public static Pile cheminOptimal;
 
@@ -102,6 +102,7 @@ public class Controleur {
                 }
             } else {
                 System.out.println("Cette option n'existe pas, entrer qu'une seule lettre");
+                choixOptionUtil = "R";
             }
         } while (choixOptionUtil.charAt(0) != QUITTER && choixOptionUtil != null );
     }
@@ -124,8 +125,10 @@ public class Controleur {
      * Le but étant qu'il trouve la sortie
      * Si l'utilisateur réussie à trouver la sortie alors le jeu se termine
      * Le joueur est renvoyé vers le menu 
+     * @throws IOException 
      */
-    public static void jouer() {
+    public static void jouer() throws IOException {
+        boolean finPartie;
         joueur = new int[]{0,0};
         arrivee = new int[]{nbLignes-1, nbColonnes-1};
         nbDeplacement = 0;
@@ -138,28 +141,36 @@ public class Controleur {
             System.out.println("Z,z -> pour se déplacer en haut\n"
                     + "S,s -> pour se déplacer en bas\n"
                     + "D,d -> pour se déplacer à droite\n"
-                    + "Q,q -> pour se déplacer à gauche"
+                    + "Q,q -> pour se déplacer à gauche\n"
                     + "I,i -> pour interrompre la partie");
 
             deplacementUtil = entreeUtilisateur.nextLine().trim();
+            finPartie = true;
             if (deplacementUtil.length() == 1) {
                 deplacementUtil = deplacementUtil.toUpperCase();
                 switch (deplacementUtil.charAt(0)) {
                 case HAUT, BAS, DROITE,GAUCHE  ->  deplacementVisible();
-                case 'I' ->  System.out.println("Partie interrompue, sauvegarde de la partie");
+                case 'I' ->{ 
+                    System.out.println("Partie interrompue, sauvegarde de la partie");
+                    sauvegarderLabyrinthe();
+                    finPartie = false;
+                }
                 default -> System.out.println("Cette option n'existe pas, choisissez les options proposés");
                 }
             } else {
                 System.out.println("Cette option n'existe pas, entrer qu'une seule lettre");
+                deplacementUtil = "R"; 
             }
         } while (!jeuFini && deplacementUtil.charAt(0) != 'I');
-        cheminOptimal = ParcoursProfondeur.parcours(labyrintheActuel);
-        System.out.println("Score optimal : " + (cheminOptimal.getTaille()-1));
-        cheminOptimalOrdi();
-        for (int ligne = 0 ; ligne < nbLignes ; ligne++) {
-            for (int colonne = 0 ; colonne < nbColonnes ; colonne++) {
-                labyrintheActuel.getSalle(ligne, colonne).setSymbole(" ");
+        if (finPartie) {
+            cheminOptimal = ParcoursProfondeur.parcours(labyrintheActuel);
+            System.out.println("Score optimal : " + (cheminOptimal.getTaille()-1));
+            cheminOptimalOrdi();
+            for (int ligne = 0 ; ligne < nbLignes ; ligne++) {
+                for (int colonne = 0 ; colonne < nbColonnes ; colonne++) {
+                    labyrintheActuel.getSalle(ligne, colonne).setSymbole(" ");
 
+                }
             }
         }
     }
@@ -176,9 +187,9 @@ public class Controleur {
             cheminOptimal.depiler();
         }
         System.out.println(labyrintheActuel.toString());
-        
+
     }
-    
+
     /**
      * Permet le déplacement dans le labyrinthe
      * Envoie un message lorsque le déplacement est impossible
@@ -257,26 +268,28 @@ public class Controleur {
     public static void ChoixFichierSauvegarde() {
         boolean saisieOk;
         int nbFichier;
+        System.out.println("\nListe des fichiers enregistrés:");
         ControleurFichier.afficheFichierSauvegarde();
         do {
-            System.out.print("\nEntrez un nombre correspondant au dernier "
-                    + "nombre faisant parti du nom du fichier correspondant:"
+            System.out.print("\nEntrez un nombre correspondant au  "
+                    + "nombre situer après les deux points d'un fichier"
                     + "\nExemple : entrer 0 pour télécharger le fichier :"
-                    + "\"SauvegardeLabyrinthe\\Labyrinthe_L3_C3_0\""
+                    + "\"SauvegardeLabyrinthe\\Labyrinthe_L3_C3_5 : 0"
                     + "\n Veuiller effectuer votre saisie : ");
             saisieOk = entreeUtilisateur.hasNextInt();
             if (saisieOk) {
                 nbFichier = entreeUtilisateur.nextInt();
                 saisieOk = nbFichier < ControleurFichier.nombreFichierSauvegarde()
-                         && nbFichier >= 0;
-                if (saisieOk) {
-                    System.out.println("Début téléchargement");
-                    ControleurFichier.choixFichier(nbFichier);
-                    ControleurFichier.RecupDonnee();
-                    nbLignes = labyrintheActuel.getNbLignes();
-                    nbColonnes = labyrintheActuel.getNbColonnes();
-                    System.out.println("Fin téléchargement");
-                }
+                        && nbFichier >= 0;
+                        if (saisieOk) {
+                            System.out.println("Début téléchargement");
+                            ControleurFichier.choixFichier(nbFichier);
+                            ControleurFichier.RecupDonnee();
+                            nbLignes = labyrintheActuel.getNbLignes();
+                            nbColonnes = labyrintheActuel.getNbColonnes();
+                            System.out.println("Un labyrinthe ( " + nbLignes + "," + nbColonnes + ") a été créé");
+                            System.out.println("Fin téléchargement");
+                        }
             }
             if (!saisieOk) {
                 System.err.println("Ce fichier n'existe pas");
