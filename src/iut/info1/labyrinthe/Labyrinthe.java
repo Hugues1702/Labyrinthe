@@ -280,12 +280,12 @@ public class Labyrinthe implements Serializable {
             resultat = tableau[ligne][colonne].isPorteOuest();
         }
         case EST -> {
-            if (ligne != getNbLignes() - 1) { //TODO ajouter un test pour ce cas
+            if (colonne != getNbColonnes() - 1) {
                 resultat = getSalleAdjacente(ligne, colonne, EST).isPorteOuest();
             }
         }
         case SUD -> {
-            if (colonne != getNbColonnes() - 1) {
+            if (ligne != getNbLignes() - 1) {
                 resultat = getSalleAdjacente(ligne, colonne, SUD).isPorteNord();
             }
         }
