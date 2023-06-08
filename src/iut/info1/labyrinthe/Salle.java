@@ -10,7 +10,12 @@ import java.io.Serializable;
  * @author BOYER Djedline
  * @author BRIOT Nael
  */
+
 public class Salle implements Serializable{
+
+    
+    /** Identifiant serializable */
+    private static final long serialVersionUID = 1141785540087881617L;
 
     /** 
      * Symbole permettant de connaître l'état du déplacement de l'utilisateur
