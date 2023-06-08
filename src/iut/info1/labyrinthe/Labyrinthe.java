@@ -1,6 +1,6 @@
 /*
  * Labyrinthe.java                                          11/05/2023
- * Ni copyright, ni 
+ * Ni copyright, ni copyleft
  */
 
 package iut.info1.labyrinthe;
@@ -8,8 +8,8 @@ package iut.info1.labyrinthe;
 import java.io.Serializable;
 
 /** 
- * Représente un labyrinthe rectangulaire, constitué de pièces originellement
- * fermée par des murs.
+ * Représente un labyrinthe rectangulaire, constitué de pièces 
+ * originellement fermée par des murs.
  * @author BAUDROIT Leïla
  * @author BERTRAND Hugues
  * @author BOYER Djedline
@@ -43,8 +43,8 @@ public class Labyrinthe implements Serializable {
      */
     public Labyrinthe(int lignes, int colonnes) {
         if (!isValide(lignes, colonnes)) {
-            throw new IllegalArgumentException("Un labyrinthe de ces dimensions"
-                    + " ne peut exister");
+            throw new IllegalArgumentException("Un labyrinthe de ces "
+            		+ "dimensions ne peut exister");
         }
         this.nbColonnes = colonnes;
         this.nbLignes = lignes;
@@ -52,7 +52,8 @@ public class Labyrinthe implements Serializable {
         int index = 0;
 
         for (int ligne = 0 ; ligne < tableau.length ; ligne++) {
-            for (int colonne = 0 ; colonne < tableau[ligne].length ; colonne++) {
+            for (int colonne = 0 ; colonne < tableau[ligne].length ; 
+            		colonne++) {
                 tableau[ligne][colonne] = new Salle(index);
                 index++;
             }
@@ -64,7 +65,8 @@ public class Labyrinthe implements Serializable {
      * Vérifie que le labyrinthe soit valide.
      * @param lignes
      * @param colonnes
-     * @return True ou False selon si le labyrinthe peut être crée ou non
+     * @return True ou False selon si le labyrinthe peut être crée ou 
+     * 		   non
      */
     private static boolean isValide(int lignes, int colonnes) {
         return lignes >= 3 && colonnes >= 3;
@@ -89,10 +91,12 @@ public class Labyrinthe implements Serializable {
             do {
                 do {
                     ligneHasard = (int) (Math.random() * getNbLignes());
-                    colonneHasard = (int) (Math.random() * getNbColonnes());
+                    colonneHasard = (int) (Math.random()
+                    				  * getNbColonnes());
                     murNord = (int) Math.round(Math.random()) == 0;
                     salleRandom = tableau[ligneHasard][colonneHasard];
-                } while (isMurExterieur(ligneHasard, colonneHasard, murNord)
+                } while (isMurExterieur(ligneHasard, colonneHasard, 
+                						murNord)
                         || isMurDejaPerce(salleRandom, murNord));
                 if (murNord) {
                     salleAdjacente = tableau[ligneHasard - 1]
@@ -101,7 +105,8 @@ public class Labyrinthe implements Serializable {
                     salleAdjacente = tableau[ligneHasard]
                             [colonneHasard - 1];
                 }
-            } while (salleRandom.getMarque() == salleAdjacente.getMarque()
+            } while (  salleRandom.getMarque()
+            		== salleAdjacente.getMarque()
                     && salleRandom.getMarque() != 0);
             if (murNord) {
                 salleRandom.setPorteNord(true);
@@ -117,17 +122,20 @@ public class Labyrinthe implements Serializable {
      */
     public void resetMarques() {
         for (int ligne = 0 ; ligne < tableau.length ; ligne++) {
-            for (int colonne = 0 ; colonne < tableau[ligne].length ; colonne++) {
+            for (int colonne = 0 ; colonne < tableau[ligne].length ; 
+            		colonne++) {
                 tableau[ligne][colonne].setMarque(0);
             }
         }
     }
 
     /**
-     * Permet de décider du remplacement des marques pour l'algorithme 1.
+     * Permet de décider du remplacement des marques pour l'algorithme
+     * de génération.
      * @param premiereSalle la salle sélectionnée
      * @param deuxiemeSalle la salle adjacente à la première
-     * @param marqueActuelle la marque à appliquer en cas de salles sans marques
+     * @param marqueActuelle la marque à appliquer en cas de salles 
+     * 		  sans marques
      * @return un entier représentant la valeur de la marque
      */
     private int changerMarques(Salle premiereSalle, Salle deuxiemeSalle,
@@ -159,8 +167,10 @@ public class Labyrinthe implements Serializable {
      */
     private void remplacerMarque(int marqueInitiale, int marqueFinale) {
         for (int ligne = 0 ; ligne < tableau.length ; ligne++) {
-            for (int colonne = 0 ; colonne < tableau[ligne].length ; colonne++) {
-                if (tableau[ligne][colonne].getMarque() == marqueInitiale) {
+            for (int colonne = 0 ; colonne < tableau[ligne].length ;
+            		colonne++) {
+                if (tableau[ligne][colonne].getMarque() 
+                		== marqueInitiale) {
                     tableau[ligne][colonne].setMarque(marqueFinale);
                 }
             }
@@ -211,13 +221,15 @@ public class Labyrinthe implements Serializable {
      */
     public int getLigneSalle(Salle salleRecherchee) {
         for (int ligne = 0 ; ligne < tableau.length ; ligne++) {
-            for (int colonne = 0 ; colonne < tableau[ligne].length ; colonne++) {
+            for (int colonne = 0 ; colonne < tableau[ligne].length ; 
+            		colonne++) {
                 if (getSalle(ligne, colonne) == salleRecherchee) {
                     return ligne;
                 }
             }
         }
-        throw new IllegalArgumentException("Cette salle n'existe pas dans ce labyrinthe");
+        throw new IllegalArgumentException("Cette salle n'existe pas "
+        		+ "dans ce labyrinthe");
     }
 
     /**
@@ -226,27 +238,31 @@ public class Labyrinthe implements Serializable {
      */
     public int getColonneSalle(Salle salleRecherchee) {
         for (int ligne = 0 ; ligne < tableau.length ; ligne++) {
-            for (int colonne = 0 ; colonne < tableau[ligne].length ; colonne++) {
+            for (int colonne = 0 ; colonne < tableau[ligne].length ; 
+            		colonne++) {
                 if (getSalle(ligne, colonne) == salleRecherchee) {
                     return colonne;
                 }
             }
         }
-        throw new IllegalArgumentException("Cette salle n'existe pas dans ce labyrinthe");
+        throw new IllegalArgumentException("Cette salle n'existe pas "
+        		+ "dans ce labyrinthe");
     }
 
     /**
      * Prédicat vérifiant qu'un nombre correspond bien à une direction.
      * @param direction l'entier à vérifier
-     * @return true si la direction vaut une des constantes NORD, SUD, OUEST, EST
+     * @return true si la direction vaut une des constantes NORD, SUD,
+     *         OUEST, EST
      */
     private boolean isDirectionValide(int direction) {
-        return direction == NORD || direction == SUD || direction == OUEST || direction == EST;
+        return direction == NORD || direction == SUD 
+        		|| direction == OUEST || direction == EST;
     }
 
     /**
-     * Pré-condition vérifiant la validité d'une direction avec les constantes
-     * de direction de la classe
+     * Pré-condition vérifiant la validité d'une direction avec les 
+     * constantes de direction de la classe
      * @param direction la direction à vérifier
      * @throws IllegalArgumentException si la direction ne correspond
      * pas aux constantes de classe
@@ -254,21 +270,25 @@ public class Labyrinthe implements Serializable {
     private void preconditionDirectionValide(int direction) {
         if (!isDirectionValide(direction)) {
             throw new IllegalArgumentException(
-                    String.format("Direction invalide : %d ne correspond à "
-                            + "aucune direction", direction));
+                    String.format("Direction invalide : %d ne "
+                    		+ "correspond à aucune direction", 
+                    		direction));
         }
     }
 
     /**
-     * Requête renvoyant le booléen représentant la porte dans la direction indiquée
-     * par rapport à la salle.
+     * Requête renvoyant le booléen représentant la porte dans la 
+     * direction indiquée par rapport à la salle.
      * @param ligne la ligne de la salle concernée
      * @param colonne la colonne de la salle concernée
-     * @param direction la direction parmi les constantes NORD, OUEST, SUD, EST
+     * @param direction la direction parmi les constantes NORD, OUEST,
+     *        SUD, EST
      * @return true si le mur est une porte, false sinon
-     * @throws IllegalArgumentException si les coordonnées ou la direction sont invalides
+     * @throws IllegalArgumentException si les coordonnées ou la 
+     * 		   direction sont invalides
      */
-    public boolean isPorteAdjacente(int ligne, int colonne, int direction) {
+    public boolean isPorteAdjacente(int ligne, int colonne, 
+    								int direction) {
         preconditionCoordonneesValides(ligne, colonne);
         preconditionDirectionValide(direction);
         boolean resultat = false;
@@ -281,24 +301,28 @@ public class Labyrinthe implements Serializable {
         }
         case EST -> {
             if (colonne != getNbColonnes() - 1) {
-                resultat = getSalleAdjacente(ligne, colonne, EST).isPorteOuest();
+                resultat = getSalleAdjacente(ligne, colonne, EST)
+                		.isPorteOuest();
             }
         }
         case SUD -> {
             if (ligne != getNbLignes() - 1) {
-                resultat = getSalleAdjacente(ligne, colonne, SUD).isPorteNord();
+                resultat = getSalleAdjacente(ligne, colonne, SUD)
+                		.isPorteNord();
             }
         }
-        default -> throw new IllegalArgumentException("Direction invalide  : " 
-                + direction);
+        default -> throw new IllegalArgumentException("Direction"
+        		+ " invalide  : " + direction);
         }
         return resultat;
     }
 
     /**
      * Prédicat de vérification de coordonnées.
-     * @param ligne la ligne de la salle dont on veut vérifier les coordonnées
-     * @param colonne la colonne de la salle dont on veut vérifier les coordonnées
+     * @param ligne la ligne de la salle dont on veut vérifier les 
+     * 		  coordonnées
+     * @param colonne la colonne de la salle dont on veut vérifier les
+     *        coordonnées
      * @return true si les coordonnées sont valides pour ce labyrinthe,
      * false sinon
      */
@@ -308,11 +332,14 @@ public class Labyrinthe implements Serializable {
     }
 
     /**
-     * Pré-condition vérifiant la validité de coordonnées dans le labyrinthe.
-     * @param ligne la ligne de la salle dont on veut vérifier l'existence
-     * @param colonne la colonne de la salle dont on veut vérifier l'existence
-     * @throws IllegalArgumentException si les coordonnées ne correspondent
-     * pas à une salle du labyrinthe.
+     * Pré-condition vérifiant la validité de coordonnées dans le 
+     * labyrinthe.
+     * @param ligne la ligne de la salle dont on veut vérifier 
+     * 		  l'existence
+     * @param colonne la colonne de la salle dont on veut vérifier 
+     *        l'existence
+     * @throws IllegalArgumentException si les coordonnées ne 
+     * 		   correspondent pas à une salle du labyrinthe.
      */
     private void preconditionCoordonneesValides(int ligne, int colonne) {
         if (!isCoordonneesSalleValide(ligne, colonne)) {
@@ -324,12 +351,13 @@ public class Labyrinthe implements Serializable {
 
     /**
      * Renvoie une salle selon sa ligne et sa colonne dans le labyrinthe.
-     * La méthode isCoordonneesSalleValide peut être utilisée pour vérifier la validité des
-     * coordonnées.
+     * La méthode isCoordonneesSalleValide peut être utilisée pour 
+     * vérifier la validité des coordonnées.
      * @param ligne un nombre compris entre 0 et getNbLignes()-1
      * @param colonne un nombre compris entre 0 et getNbColonnes()-1
      * @return la Salle située à ces coordonnées.
-     * @throws IllegalArgumentException si les coordonnées sont invalides
+     * @throws IllegalArgumentException si les coordonnées sont 
+     * 		   invalides
      */
     public Salle getSalle(int ligne, int colonne) {
         preconditionCoordonneesValides(ligne, colonne);
@@ -337,15 +365,18 @@ public class Labyrinthe implements Serializable {
     }
 
     /**
-     * Prédicat vérifiant la présence de salla adjacente à une autre dans une direction
-     * donné. Cette présence correspond à la recherche de murs extérieurs.
+     * Prédicat vérifiant la présence de salla adjacente à une autre 
+     * dans une direction donné. Cette présence correspond à la 
+     * recherche de murs extérieurs.
      * @param ligne la ligne de la salle recherchée
      * @param colonne la colonne de la salle recherchée
-     * @param direction la direction dans laquelle on veut la salle adjacente
-     * @return true si il existe une salle dans cette direction pour cette salle
-     * false sinon
+     * @param direction la direction dans laquelle on veut la salle 
+     *        adjacente
+     * @return true si il existe une salle dans cette direction pour 
+     *         cette salle false sinon
      */
-    public boolean hasSalleAdjacente(int ligne, int colonne, int direction) {
+    public boolean hasSalleAdjacente(int ligne, int colonne, 
+    		                         int direction) {
         preconditionDirectionValide(direction);
         preconditionCoordonneesValides(ligne, colonne);
         if (direction == NORD) {
@@ -357,37 +388,46 @@ public class Labyrinthe implements Serializable {
         } else if (direction == EST){
             return colonne != (getNbColonnes() - 1);
         }
-        throw new IllegalArgumentException(); //pour faire plaisir au compilateur
+        throw new IllegalArgumentException(); 
+        //pour faire plaisir au compilateur
     }
 
     /**
-     * Pré-condition vérifiant la validité de coordonnées dans le labyrinthe.
-     * @param ligne la ligne de la salle dont on veut vérifier l'existence
-     * @param colonne la colonne de la salle dont on veut vérifier l'existence
-     * @throws IllegalArgumentException si les coordonnées ne correspondent
-     * pas à une salle du labyrinthe.
+     * Pré-condition vérifiant la validité de coordonnées dans le 
+     * labyrinthe.
+     * @param ligne la ligne de la salle dont on veut vérifier 
+     *        l'existence
+     * @param colonne la colonne de la salle dont on veut vérifier 
+     *        l'existence
+     * @throws IllegalArgumentException si les coordonnées ne 
+     *         correspondent pas à une salle du labyrinthe.
      */
-    private void preconditionSalleAdjacenteValide(int ligne, int colonne,
-            int direction) {
+    private void preconditionSalleAdjacenteValide(int ligne, 
+    		int colonne, int direction) {
         if (!hasSalleAdjacente(ligne, colonne, direction)) {
             throw new IllegalArgumentException(
-                    String.format("Pas de salle adjacente dans la direction "
-                            + " %d : [%d;%d]",
+                    String.format("Pas de salle adjacente dans la"
+                    		+ " direction %d : [%d;%d]",
                             direction, ligne, colonne));
         }
     }
 
     /**
-     * Permet d'obtenir la salle adjacente à une autre avec ses coordonnées et
-     * la direction.
-     * @param ligne la ligne de la salle valide dont on veut la salle adjacente
-     * @param colonne la colonne de la salle valide dont ont veut la salle adjacente
-     * @param direction la direction parmi les constantes NORD, OUEST, SUD, EST
+     * Permet d'obtenir la salle adjacente à une autre avec ses 
+     * coordonnées et la direction.
+     * @param ligne la ligne de la salle valide dont on veut la salle 
+     *        adjacente
+     * @param colonne la colonne de la salle valide dont ont veut la 
+     *        salle adjacente
+     * @param direction la direction parmi les constantes NORD, OUEST,
+     *        SUD, EST
      * @return la salle située à côté
-     * @throws IllegalArgumentException si les coordonnées ou la direction sont invalides,
-     * ou si les coordonnées de la salle obtenue sont invalides
+     * @throws IllegalArgumentException si les coordonnées ou la 
+     *         direction sont invalides, ou si les coordonnées de la 
+     *         salle obtenue sont invalides
      */
-    public Salle getSalleAdjacente(int ligne, int colonne, int direction) {
+    public Salle getSalleAdjacente(int ligne, int colonne, 
+    							   int direction) {
         preconditionSalleAdjacenteValide(ligne, colonne, direction);
         preconditionCoordonneesValides(ligne, colonne);
         preconditionDirectionValide(direction);
@@ -414,14 +454,17 @@ public class Labyrinthe implements Serializable {
     public String toString() {
         String resultat = "";
         for (int ligne = 0 ; ligne < tableau.length ; ligne++) {
-            for (int colonne = 0 ; colonne < tableau[ligne].length ; colonne++) {
+            for (int colonne = 0 ; colonne < tableau[ligne].length ; 
+            		colonne++) {
                 resultat += "+";
                 resultat += tableau[ligne][colonne].isPorteNord() ?
                         "     " : "-----";
             }
             resultat += "+\n";
-            for (int colonne = 0 ; colonne < tableau[ligne].length ; colonne++) {
-                String murVertical = tableau[ligne][colonne].isPorteOuest() ? 
+            for (int colonne = 0 ; colonne < tableau[ligne].length ; 
+            		colonne++) {
+                String murVertical = tableau[ligne][colonne]
+                		.isPorteOuest() ? 
                         " ":"|";
                 resultat += String.format(murVertical + "  " +
                         tableau[ligne][colonne].getPresenceJoueur()
