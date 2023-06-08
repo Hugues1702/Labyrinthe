@@ -79,4 +79,13 @@ class TestPile {
 		pileString.empiler("Chat");
 		assertFalse(pileString.estVide());
 	}
+	
+	@Test
+	void testGetTaille() {
+		assertEquals(0, pileString.getTaille());
+		pileString.empiler("Chat");
+		assertEquals(1, pileString.getTaille());
+		pileString.depiler();
+		assertEquals(0, pileString.getTaille());
+	}
 }
