@@ -35,8 +35,8 @@ public class ParcoursProfondeur {
     public static Pile parcours(Labyrinthe laby) {
         Pile pileSalles = new Pile();
         Salle entree = laby.getSalle(0, 0);
-        Salle sortie = laby.getSalle(laby.getNbColonnes() - 1, 
-                laby.getNbLignes() - 1);
+        Salle sortie = laby.getSalle(
+                laby.getNbLignes() - 1,laby.getNbColonnes() - 1);
 
         laby.resetMarques();
         entree.setMarque(PARCOURU);

@@ -79,5 +79,4 @@ class TestPile {
 		pileString.empiler("Chat");
 		assertFalse(pileString.estVide());
 	}
-
 }

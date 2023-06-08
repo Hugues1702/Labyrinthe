@@ -4,10 +4,10 @@
  */
 package iut.info1.labyrinthe.controle;
 
-import static iut.info1.labyrinthe.controle.Controleur.labyrintheActuel;
-import static iut.info1.labyrinthe.controle.Controleur.joueur;
-import static iut.info1.labyrinthe.controle.Controleur.nbLignes;
-import static iut.info1.labyrinthe.controle.Controleur.nbColonnes;
+import static iut.info1.labyrinthe.controle.MenuPrincipal.labyrintheActuel;
+import static iut.info1.labyrinthe.controle.MenuPrincipal.joueur;
+import static iut.info1.labyrinthe.controle.MenuPrincipal.nbLignes;
+import static iut.info1.labyrinthe.controle.MenuPrincipal.nbColonnes;
 
 /** 
  * Permet de gérer le déplacement de l'utilisateur dans un labyrinthe
@@ -18,7 +18,7 @@ import static iut.info1.labyrinthe.controle.Controleur.nbColonnes;
  *
  */
 public class ControleDeplacement {
-       
+
     /** 
      * Premet de savoir si un deplacement en haut est possible
      * et si true alors on deplace l'utilisateur
@@ -36,9 +36,9 @@ public class ControleDeplacement {
         }
         if (!deplacementPossible) {
             throw new IllegalArgumentException();
-         }
+        }
     }
-    
+
     /** 
      * Premet de savoir si un deplacement en bas est possible
      * et si true alors on deplace l'utilisateur
@@ -58,9 +58,9 @@ public class ControleDeplacement {
         }
         if (!deplacementPossible) {
             throw new IllegalArgumentException();
-         }
+        }
     }
-    
+
     /** 
      * Permet de savoir si un deplacement à droite est possible
      * et si true alors on deplace l'utilisateur
@@ -79,9 +79,9 @@ public class ControleDeplacement {
         }
         if (!deplacementPossible) {
             throw new IllegalArgumentException();
-         }
+        }
     }
-    
+
     /** 
      * Permet de savoir si un deplacement à gauche est possible
      * et si true alors on deplace l'utilisateur
@@ -100,11 +100,12 @@ public class ControleDeplacement {
         }
         if (!deplacementPossible) {
             throw new IllegalArgumentException();
-         }
+        }
     }
-    
-    /** TODO comment method role
-     * 
+
+    /** 
+     * Permet de marquer une salle que l'utilisateur vient de quitter
+     * avec un caractère quelconque
      */
     public static void changementSalle() {
         labyrintheActuel.getSalle(joueur[0], joueur[1]).setSymbole(".");
