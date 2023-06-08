@@ -95,6 +95,7 @@ public class Pile {
     }
 
     /**
+     * Affiche la taille de la pile créé
      * @return la taille de cette pile
      */
     public int getTaille() {

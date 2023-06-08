@@ -131,7 +131,7 @@ public class MenuPrincipal {
      * Le but étant qu'il trouve la sortie
      * Si l'utilisateur réussie à trouver la sortie alors le jeu se termine
      * Le joueur est renvoyé vers le menu 
-     * @throws IOException 
+     * @throws IOException lorsqu'un fichier n'est pas trouvé 
      */
     public static void jouer() throws IOException {
         boolean finPartie;

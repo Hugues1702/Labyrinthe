@@ -15,7 +15,6 @@ import static iut.info1.labyrinthe.controle.MenuPrincipal.nbColonnes;
  * @author Hugues Bertrand
  * @author Djedline Boyer
  * @author Nael Briot
- *
  */
 public class ControleDeplacement {
 
@@ -42,9 +41,7 @@ public class ControleDeplacement {
     /** 
      * Premet de savoir si un deplacement en bas est possible
      * et si true alors on deplace l'utilisateur
-     * @param ligne la position du l'utilisateur dans les lignes du tableau
-     * @param colonne la position du l'utilisateur dans les colonnes du tableau
-     * @throws si deplacement impossible
+     * @throws IllegalArgumentException si deplacement impossible
      */
     public static void deplacementBas() {
         boolean deplacementPossible = joueur[0]+1 < nbLignes;
@@ -64,9 +61,7 @@ public class ControleDeplacement {
     /** 
      * Permet de savoir si un deplacement à droite est possible
      * et si true alors on deplace l'utilisateur
-     * @param ligne la position du l'utilisateur dans les lignes du tableau
-     * @param colonne la position du l'utilisateur dans les colonnes du tableau
-     * @throws si deplacement impossible
+     * @throws IllegalArgumentException si deplacement impossible
      */
     public static void deplacementDroite() {
         boolean deplacementPossible = joueur[1]+1 < nbColonnes;
@@ -85,9 +80,7 @@ public class ControleDeplacement {
     /** 
      * Permet de savoir si un deplacement à gauche est possible
      * et si true alors on deplace l'utilisateur
-     * @param ligne la position du l'utilisateur dans les lignes du tableau
-     * @param colonne la position du l'utilisateur dans les colonnes du tableau
-     * @throws si deplacement impossible
+     * @throws IllegalArgumentException si deplacement impossible
      */
     public static void deplacementGauche() {
         boolean deplacementPossible = joueur[1]>= 0;

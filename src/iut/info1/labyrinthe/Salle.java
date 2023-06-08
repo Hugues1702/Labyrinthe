@@ -12,7 +12,10 @@ import java.io.Serializable;
  */
 public class Salle implements Serializable{
 
-    String symbole;
+    /** 
+     * Symbole permettant de connaître l'état du déplacement de l'utilisateur
+     */
+    private String symbole;
 
     /**
      * Le numéro assigné à la salle.
@@ -53,19 +56,22 @@ public class Salle implements Serializable{
      * Vérifie la validité d'un index 
      * @param index l'index à vérifier.
      * @return true si l'index est positif ou nul.
+     *         false sinon
      */
     private static boolean isValide(int index) {
         return index >= 0;
     }
 
     /**
-     * @return marque la marque assignée à la salle
+     * Permet de connaitre la marque de la salle
+     * @return marque assignée à la salle
      */
     public int getMarque() {
         return marque;
     }
 
     /** 
+     * Permet de changer la marque de la salle
      * @param marque la nouvelle marque assignée à la salle
      */
     public void setMarque(int marque) {
@@ -73,16 +79,17 @@ public class Salle implements Serializable{
     }
 
     /**
-     * @return porteNord qui vaut true si le mur au Nord est une
-     * porte, false autrement
+     * Permet de savoir si une porte se trouve au nord de la salle
+     * @return true si le mur au Nord est une porte,
+     *         false autrement
      */
     public boolean isPorteNord() {
         return porteNord;
     }
 
     /** 
-     * @param porteNord 
-     * @param la nouvelle valeur pour le mur au Nord de cette salle
+     * Permet de modifier l'ouverture de la porte au nord de la salle
+     * @param porteNord la nouvelle valeur pour le mur au Nord de cette salle
      * - true si le mur est une porte
      * - false sinon
      */
@@ -91,6 +98,7 @@ public class Salle implements Serializable{
     }
 
     /**
+     * Permet de savoir si une porte se trouve à l'ouest de la salle
      * @return porteOuest qui vaut true si le mur à l'Ouest est une
      * porte, false autrement
      */
@@ -99,10 +107,10 @@ public class Salle implements Serializable{
     }
 
     /** 
-     * @param porteOuest 
-     * @param la nouvelle valeur pour le mur à l'Ouest de cette salle
-     * - true si le mur est une porte
-     * - false sinon
+     * Permet de modifier l'ouverture de la porte à l'ouest de la salle
+     * @param porteOuest la nouvelle valeur pour le mur à l'Ouest de cette salle
+     *  true si le mur est une porte
+     *  false sinon
      */
     public void setPorteOuest(boolean porteOuest) {
         this.porteOuest = porteOuest;
@@ -110,7 +118,7 @@ public class Salle implements Serializable{
 
     /** 
      * Le numéro d'indice de la salle au sein du labyrinthe.
-     * @return index
+     * @return index de la salle
      */
     public int getIndex() {
         return index;
@@ -126,7 +134,7 @@ public class Salle implements Serializable{
     }
 
     /** 
-     * PModifie le symbole à afficher
+     * Modifie le symbole à afficher
      * @param choixSymbole récupère le symbole à afficher dans la salle :
      *  X si l'utilisateur est présent dans la salle
      *  . si l'utilisateur est passée dans la salle

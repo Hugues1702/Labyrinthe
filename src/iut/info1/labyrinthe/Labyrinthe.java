@@ -19,7 +19,7 @@ import java.io.Serializable;
 public class Labyrinthe implements Serializable {
 
 
-    /** Entier représentant la direction nord*/
+    /** Entier représentant la direction nord */
     public static final int NORD = 0;
 
     /** Entier représentant la direction ouest*/
@@ -31,15 +31,20 @@ public class Labyrinthe implements Serializable {
     /** Entier représentant la direction est*/
     public static final int EST = 3;
 
+    /** nombre de colonne dans le labyrinthe */
     private int nbColonnes;
+    
+    /** nombre de ligne dans le labyrinthe */
     private int nbLignes;
+    
+    /** Contient toutes les salles et sera converti en labyrinthe */
     private Salle[][] tableau;
 
     /**
      * Crée un labyrinthe en fonction d'un nombre de salles en longueur
      * et en hauteur.
-     * @param lignes le nombre de lignes de salles présentes
-     * @param colonnes le nombre de colonnes de salles présentes
+     * @param lignes le nombre de lignes pour le créer le labyrinthe
+     * @param colonnes le nombre de colonnes pour le créer le labyrinthe
      */
     public Labyrinthe(int lignes, int colonnes) {
         if (!isValide(lignes, colonnes)) {
@@ -63,10 +68,10 @@ public class Labyrinthe implements Serializable {
 
     /**
      * Vérifie que le labyrinthe soit valide.
-     * @param lignes
-     * @param colonnes
-     * @return True ou False selon si le labyrinthe peut être crée ou 
-     *             non
+     * @param lignes du labyrinthe
+     * @param colonnes du labyrinthe
+     * @return true si le labyrinthe peut être crée 
+     *         false sinon
      */
     private static boolean isValide(int lignes, int colonnes) {
         return lignes >= 3 && colonnes >= 3;
@@ -202,6 +207,7 @@ public class Labyrinthe implements Serializable {
         return salle.isPorteNord();
     }
     /**
+     * Permet de connaitre le nombre de ligne d'un labyrinthe
      * @return le nombre de lignes
      */
     public int getNbLignes() {
@@ -209,6 +215,7 @@ public class Labyrinthe implements Serializable {
     }
 
     /**
+     * Permet de connaitre le nombre de colonne d'un labyrinthe
      * @return le nombre de colonnes
      */
     public int getNbColonnes() {
@@ -216,6 +223,7 @@ public class Labyrinthe implements Serializable {
     }
 
     /**
+     * Permet d'afficher la ligne où se trouve une salle
      * @param salleRecherchee la salle dont on veut la ligne
      * @return la ligne de cette salle
      */
@@ -233,6 +241,7 @@ public class Labyrinthe implements Serializable {
     }
 
     /**
+     * Permet d'afficher la colonne où se trouve une salle
      * @param salleRecherchee la salle dont on veut la colonne
      * @return la colonne de cette salle
      */
@@ -324,7 +333,7 @@ public class Labyrinthe implements Serializable {
      * @param colonne la colonne de la salle dont on veut vérifier les
      *        coordonnées
      * @return true si les coordonnées sont valides pour ce labyrinthe,
-     * false sinon
+     *         false sinon
      */
     public boolean isCoordonneesSalleValide(int ligne, int colonne) {
         return       ligne >= 0 &&   ligne < getNbLignes() 
