@@ -168,14 +168,15 @@ public class MenuPrincipal {
         } while (!jeuFini && deplacementUtil.charAt(0) != 'I');
         if (finPartie) {
             cheminOptimal = ParcoursProfondeur.parcours(labyrintheActuel);
-            System.out.println("Score optimal : " + (cheminOptimal.getTaille()-1));
-            cheminOptimalOrdi();
+            System.out.println("Score optimal : " 
+                 + (cheminOptimal.getTaille()-1) + "\nChemin optimal :");
             for (int ligne = 0 ; ligne < nbLignes ; ligne++) {
                 for (int colonne = 0 ; colonne < nbColonnes ; colonne++) {
                     labyrintheActuel.getSalle(ligne, colonne).setSymbole(" ");
 
                 }
             }
+            cheminOptimalOrdi();
             nbDeplacement = 0;
         }
     }

@@ -143,94 +143,94 @@ class TestLabyrinthe {
     
     @Test
     void testGetLigneSalle() {
-    	Salle salleIndep = new Salle(100);
-    	Labyrinthe laby = correctes.get(1);
-    	assertThrows(IllegalArgumentException.class, 
-    			() -> laby.getLigneSalle(salleIndep));
-    	Salle salleExtraite;
-    	salleExtraite = laby.getSalle(1, 1);
-    	assertEquals(1, laby.getLigneSalle(salleExtraite));
-    	
-    	salleExtraite = laby.getSalle(2, 0);
-    	assertEquals(2, laby.getLigneSalle(salleExtraite));
+        Salle salleIndep = new Salle(100);
+        Labyrinthe laby = correctes.get(1);
+        assertThrows(IllegalArgumentException.class, 
+                        () -> laby.getLigneSalle(salleIndep));
+        Salle salleExtraite;
+        salleExtraite = laby.getSalle(1, 1);
+        assertEquals(1, laby.getLigneSalle(salleExtraite));
+        
+        salleExtraite = laby.getSalle(2, 0);
+        assertEquals(2, laby.getLigneSalle(salleExtraite));
     }
     
     @Test
     void testGetColonneSalle() {
-    	Salle salleIndep = new Salle(100);
-    	Labyrinthe laby = correctes.get(1);
-    	assertThrows(IllegalArgumentException.class, 
-    			() -> laby.getColonneSalle(salleIndep));
-    	Salle salleExtraite;
-    	salleExtraite = laby.getSalle(1, 1);
-    	assertEquals(1, laby.getColonneSalle(salleExtraite));
-    	
-    	salleExtraite = laby.getSalle(2, 0);
-    	assertEquals(0, laby.getColonneSalle(salleExtraite));
+        Salle salleIndep = new Salle(100);
+        Labyrinthe laby = correctes.get(1);
+        assertThrows(IllegalArgumentException.class, 
+                        () -> laby.getColonneSalle(salleIndep));
+        Salle salleExtraite;
+        salleExtraite = laby.getSalle(1, 1);
+        assertEquals(1, laby.getColonneSalle(salleExtraite));
+        
+        salleExtraite = laby.getSalle(2, 0);
+        assertEquals(0, laby.getColonneSalle(salleExtraite));
     } 
     
     @Test
     void testIsPorteAdjacente() {
-    	for (Labyrinthe laby : correctes) {
-    		assertThrows(IllegalArgumentException.class, 
-        			() -> laby.isPorteAdjacente(1, -1, NORD));
-    		assertThrows(IllegalArgumentException.class, 
-        			() -> laby.isPorteAdjacente(-1, 1, NORD));
-    		assertThrows(IllegalArgumentException.class, 
-        			() -> laby.isPorteAdjacente(1, 1, 6));
-        			
-    		int ligneMax = laby.getNbLignes() - 1;
-    		int colonneMax = laby.getNbColonnes() - 1;
-    		assertFalse(laby.isPorteAdjacente(0, 0, NORD));
-    		assertFalse(laby.isPorteAdjacente(0, 0, OUEST));  
-    		
-    		assertFalse(laby.isPorteAdjacente(0, colonneMax, NORD));
-    		assertFalse(laby.isPorteAdjacente(0, colonneMax, EST));
-    		
-    		assertFalse(laby.isPorteAdjacente(ligneMax, colonneMax, SUD));
-    		assertFalse(laby.isPorteAdjacente(ligneMax, colonneMax, EST));
-    		
-    		assertFalse(laby.isPorteAdjacente(ligneMax, 0, SUD));
-    		assertFalse(laby.isPorteAdjacente(ligneMax, 0, OUEST));
-    		
-    		assertTrue(laby.isPorteAdjacente(0, 0, EST) 
-    				|| laby.isPorteAdjacente(0, 0, SUD));
-    		
-    		assertTrue(laby.isPorteAdjacente(ligneMax, colonneMax, NORD) 
-    				|| laby.isPorteAdjacente(ligneMax, colonneMax, OUEST));
-    	}
+        for (Labyrinthe laby : correctes) {
+                assertThrows(IllegalArgumentException.class, 
+                                () -> laby.isPorteAdjacente(1, -1, NORD));
+                assertThrows(IllegalArgumentException.class, 
+                                () -> laby.isPorteAdjacente(-1, 1, NORD));
+                assertThrows(IllegalArgumentException.class, 
+                                () -> laby.isPorteAdjacente(1, 1, 6));
+                                
+                int ligneMax = laby.getNbLignes() - 1;
+                int colonneMax = laby.getNbColonnes() - 1;
+                assertFalse(laby.isPorteAdjacente(0, 0, NORD));
+                assertFalse(laby.isPorteAdjacente(0, 0, OUEST));  
+                
+                assertFalse(laby.isPorteAdjacente(0, colonneMax, NORD));
+                assertFalse(laby.isPorteAdjacente(0, colonneMax, EST));
+                
+                assertFalse(laby.isPorteAdjacente(ligneMax, colonneMax, SUD));
+                assertFalse(laby.isPorteAdjacente(ligneMax, colonneMax, EST));
+                
+                assertFalse(laby.isPorteAdjacente(ligneMax, 0, SUD));
+                assertFalse(laby.isPorteAdjacente(ligneMax, 0, OUEST));
+                
+                assertTrue(laby.isPorteAdjacente(0, 0, EST) 
+                                || laby.isPorteAdjacente(0, 0, SUD));
+                
+                assertTrue(laby.isPorteAdjacente(ligneMax, colonneMax, NORD) 
+                                || laby.isPorteAdjacente(ligneMax, colonneMax, OUEST));
+        }
     }
     
     @Test
     void testHasSalleAdjacente() {
-    	for (Labyrinthe laby : correctes) {
-    		assertThrows(IllegalArgumentException.class, 
-        			() -> laby.isPorteAdjacente(1, -1, NORD));
-    		assertThrows(IllegalArgumentException.class, 
-        			() -> laby.isPorteAdjacente(-1, 1, NORD));
-    		assertThrows(IllegalArgumentException.class, 
-        			() -> laby.isPorteAdjacente(1, 1, 6));
-    		
-	    	int ligneMax = laby.getNbLignes() - 1;
-			int colonneMax = laby.getNbColonnes() - 1;
-			
-	    	assertFalse(laby.hasSalleAdjacente(0, 0, NORD));
-	    	assertFalse(laby.hasSalleAdjacente(0, 0, OUEST));
-	    	
-	    	assertFalse(laby.hasSalleAdjacente(0, colonneMax, NORD));
-	    	assertFalse(laby.hasSalleAdjacente(0, colonneMax, EST));
-	    	
-	    	assertFalse(laby.hasSalleAdjacente(ligneMax, colonneMax, SUD));
-	    	assertFalse(laby.hasSalleAdjacente(ligneMax, colonneMax, EST));
-	    	
-	    	assertFalse(laby.hasSalleAdjacente(ligneMax, 0, SUD));
-	    	assertFalse(laby.hasSalleAdjacente(ligneMax, 0, OUEST));
-	    	
-	    	assertTrue(laby.hasSalleAdjacente(1, 1, NORD));
-    		assertTrue(laby.hasSalleAdjacente(1, 1, OUEST));
-    		assertTrue(laby.hasSalleAdjacente(1, 1, SUD));
-    		assertTrue(laby.hasSalleAdjacente(1, 1, EST));
-    	}
+        for (Labyrinthe laby : correctes) {
+                assertThrows(IllegalArgumentException.class, 
+                                () -> laby.isPorteAdjacente(1, -1, NORD));
+                assertThrows(IllegalArgumentException.class, 
+                                () -> laby.isPorteAdjacente(-1, 1, NORD));
+                assertThrows(IllegalArgumentException.class, 
+                                () -> laby.isPorteAdjacente(1, 1, 6));
+                
+                int ligneMax = laby.getNbLignes() - 1;
+                        int colonneMax = laby.getNbColonnes() - 1;
+                        
+                assertFalse(laby.hasSalleAdjacente(0, 0, NORD));
+                assertFalse(laby.hasSalleAdjacente(0, 0, OUEST));
+                
+                assertFalse(laby.hasSalleAdjacente(0, colonneMax, NORD));
+                assertFalse(laby.hasSalleAdjacente(0, colonneMax, EST));
+                
+                assertFalse(laby.hasSalleAdjacente(ligneMax, colonneMax, SUD));
+                assertFalse(laby.hasSalleAdjacente(ligneMax, colonneMax, EST));
+                
+                assertFalse(laby.hasSalleAdjacente(ligneMax, 0, SUD));
+                assertFalse(laby.hasSalleAdjacente(ligneMax, 0, OUEST));
+                
+                assertTrue(laby.hasSalleAdjacente(1, 1, NORD));
+                assertTrue(laby.hasSalleAdjacente(1, 1, OUEST));
+                assertTrue(laby.hasSalleAdjacente(1, 1, SUD));
+                assertTrue(laby.hasSalleAdjacente(1, 1, EST));
+        }
     }
 
 }

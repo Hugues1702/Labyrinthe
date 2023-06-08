@@ -114,7 +114,6 @@ public class ControleurFichier {
     public static void afficheFichierSauvegarde() {
         File monRepertoire = new File("SauvegardeLabyrinthe");
         File[] listeFichier = monRepertoire.listFiles();
-
         if (listeFichier == null) {
             System.out.println("Pas de fichier sauvegardee");
         } else {

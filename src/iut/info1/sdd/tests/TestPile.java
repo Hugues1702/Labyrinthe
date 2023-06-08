@@ -19,73 +19,73 @@ import iut.info1.sdd.PileVideException;
  * @author BRIOT Nael
  */
 class TestPile {
-	
-	Pile pileVide;
-	Pile pileString;
+        
+        Pile pileVide;
+        Pile pileString;
 
-	@BeforeEach
-	void setUp() throws Exception {
-		pileVide = new Pile();
-		pileString = new Pile();
-	}
+        @BeforeEach
+        void setUp() throws Exception {
+                pileVide = new Pile();
+                pileString = new Pile();
+        }
 
-	@Test
-	void testPile() {
-		new Pile();
-	}
+        @Test
+        void testPile() {
+                new Pile();
+        }
 
-	@Test
-	void testEmpiler() {
-		pileString.empiler("Chat");
-		assertEquals("Chat", pileString.sommet());
-		pileString.empiler("Chien");
-		pileString.empiler("Loup");
-		pileString.empiler("Tortue");
-		pileString.empiler("Pitohui");
-		pileString.empiler("Fou du Cap");
-		pileString.empiler("Lynx");
-		pileString.empiler("Pika");
-		pileString.empiler("Loutre");
-		pileString.empiler("Fouine");
-		pileString.empiler("Cocodile");
-	}
-	
+        @Test
+        void testEmpiler() {
+                pileString.empiler("Chat");
+                assertEquals("Chat", pileString.sommet());
+                pileString.empiler("Chien");
+                pileString.empiler("Loup");
+                pileString.empiler("Tortue");
+                pileString.empiler("Pitohui");
+                pileString.empiler("Fou du Cap");
+                pileString.empiler("Lynx");
+                pileString.empiler("Pika");
+                pileString.empiler("Loutre");
+                pileString.empiler("Fouine");
+                pileString.empiler("Cocodile");
+        }
+        
 
-	@Test
-	void testDepiler() {
-		pileString.empiler("A garder");
-		pileString.empiler("A depiler");
-		pileString.depiler();
-		assertEquals("A garder", pileString.sommet());
-		
-		pileVide.empiler("A dépiler");
-		assertTrue(pileVide.depiler().estVide());
-		
-		assertThrows(PileVideException.class, () -> {
-			pileVide.depiler();
-		});
-	}
+        @Test
+        void testDepiler() {
+                pileString.empiler("A garder");
+                pileString.empiler("A depiler");
+                pileString.depiler();
+                assertEquals("A garder", pileString.sommet());
+                
+                pileVide.empiler("A dépiler");
+                assertTrue(pileVide.depiler().estVide());
+                
+                assertThrows(PileVideException.class, () -> {
+                        pileVide.depiler();
+                });
+        }
 
-	@Test
-	void testSommet() {
-		assertThrows(PileVideException.class, () -> {
-			pileVide.sommet();
-		});
-	}
+        @Test
+        void testSommet() {
+                assertThrows(PileVideException.class, () -> {
+                        pileVide.sommet();
+                });
+        }
 
-	@Test
-	void testEstVide() {
-		assertTrue(pileVide.estVide());
-		pileString.empiler("Chat");
-		assertFalse(pileString.estVide());
-	}
-	
-	@Test
-	void testGetTaille() {
-		assertEquals(0, pileString.getTaille());
-		pileString.empiler("Chat");
-		assertEquals(1, pileString.getTaille());
-		pileString.depiler();
-		assertEquals(0, pileString.getTaille());
-	}
+        @Test
+        void testEstVide() {
+                assertTrue(pileVide.estVide());
+                pileString.empiler("Chat");
+                assertFalse(pileString.estVide());
+        }
+        
+        @Test
+        void testGetTaille() {
+                assertEquals(0, pileString.getTaille());
+                pileString.empiler("Chat");
+                assertEquals(1, pileString.getTaille());
+                pileString.depiler();
+                assertEquals(0, pileString.getTaille());
+        }
 }
