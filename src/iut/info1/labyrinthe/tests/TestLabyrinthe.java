@@ -27,7 +27,7 @@ import iut.info1.labyrinthe.Labyrinthe;
  */
 class TestLabyrinthe {
 
-    private List<Labyrinthe> correctes = new ArrayList<Labyrinthe>();
+    List<Labyrinthe> correctes = new ArrayList<Labyrinthe>();
 
     @BeforeEach
     void setUp() throws Exception {
@@ -35,7 +35,7 @@ class TestLabyrinthe {
         correctes.add( new Labyrinthe(3, 5));
         correctes.add( new Labyrinthe(8, 8));
         correctes.add( new Labyrinthe(4, 4));
-        
+
     }
 
     @Test
@@ -76,7 +76,7 @@ class TestLabyrinthe {
          * faire ce test.
          */
     }
-    
+
     @Test
     void testResetMarques() {
         correctes.get(0).getSalle(0, 0).setMarque(1);
@@ -87,7 +87,7 @@ class TestLabyrinthe {
         assertEquals(0, correctes.get(0).getSalle(1, 2).getMarque());
         assertEquals(0, correctes.get(0).getSalle(2, 4).getMarque());
     }
-    
+
     @Test
     void testGetSalle() {
         assertThrows(IllegalArgumentException.class, () -> correctes.get(0).getSalle(-1, -1));
@@ -98,7 +98,7 @@ class TestLabyrinthe {
         assertEquals(0, correctes.get(0).getSalle(0, 0).getIndex());
         assertEquals(14, correctes.get(0).getSalle(2, 4).getIndex());
     }
-    
+
     @Test
     void testIsCoordonneesSalleValide() {
         assertTrue(correctes.get(0).isCoordonneesSalleValide(0, 0));
@@ -109,23 +109,23 @@ class TestLabyrinthe {
         assertFalse(correctes.get(0).isCoordonneesSalleValide(3, 0));
         assertFalse(correctes.get(0).isCoordonneesSalleValide(0, 5));
     }
-    
+
     @Test
     void testGetSalleAdjacente() {
         Labyrinthe aTester = correctes.get(0);
-        
+
         // vérification des coordonnées
         assertThrows(IllegalArgumentException.class, () -> aTester.getSalleAdjacente(-1, -1, NORD));
         assertThrows(IllegalArgumentException.class, () -> aTester.getSalleAdjacente(-1, 0, NORD));
         assertThrows(IllegalArgumentException.class, () -> aTester.getSalleAdjacente(0, -1, NORD));
         assertThrows(IllegalArgumentException.class, () -> aTester.getSalleAdjacente(0, 5, NORD));
         assertThrows(IllegalArgumentException.class, () -> aTester.getSalleAdjacente(3, 0, NORD));
-        
+
         // vérification de la direction
         assertThrows(IllegalArgumentException.class, () -> aTester.getSalleAdjacente(-1, -1, -1));
         assertThrows(IllegalArgumentException.class, () -> aTester.getSalleAdjacente(-1, -1, 4));
         assertThrows(IllegalArgumentException.class, () -> aTester.getSalleAdjacente(-1, -1, Integer.MAX_VALUE));
-        
+
         // vérification des murs extérieurs
         assertThrows(IllegalArgumentException.class, () -> aTester.getSalleAdjacente(0, 0, NORD));
         assertThrows(IllegalArgumentException.class, () -> aTester.getSalleAdjacente(0, 2, NORD));
